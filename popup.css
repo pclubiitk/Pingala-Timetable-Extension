@@ -1,29 +1,23 @@
 body {
   font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background-color: #f2f2f2;
-  overflow: hidden;
-  width: fit-content;
-  height: fit-content;
+  width: 490px;
 }
 
 .container {
-  width: 300px;
-  padding: 20px;
+  width: 100%;
   text-align: center;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   max-height: 100%;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
   
 .header {
-  margin-bottom: 20px;
+  margin-bottom: 7.5px;
 }
 
 .header h2 {
@@ -31,16 +25,8 @@ body {
   color: #333;
 }
 
-.buttons {
-  display: grid;
-  gap: 10px;
-  grid-template-columns: 1fr;
-  padding: 10px;
-}
-
 .buttons button{
-  width: 100%;
-  padding: 12px;
+  width: 50%;
   font-size: 16px;
   border: none;
   border-radius: 5px;
@@ -48,6 +34,8 @@ body {
   color: #fff;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  padding: 5px;
+  margin: 0 5px 10px 5px;
 }
 
 .buttons button:hover {
@@ -56,6 +44,66 @@ body {
 
 .minus-sign{
   visibility: hidden;
+  border: solid 0 black;
+  border-radius: 100%;
+  color: white;
+  background-color: red;
 }
 
-  
+#timetable #closeBtn{
+  text-align: right;
+  margin-right: 40px;
+  margin-top: 10px;
+}
+
+#timetable #closeBtn button{
+  color: white;
+  background-color: red;
+  border: none;
+  border-radius: 5px;
+  width: 100px;
+  padding: 5px;
+  font-size: medium;
+  cursor: pointer;
+}
+
+.addBtn{
+  border: solid 0 black;
+  border-radius: 100%;
+  color: white;
+  background-color: #4c7bfa;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+#timetable #timetableBtns{
+  margin-top: 5px;
+}
+
+#timetable #timetableBtns button{
+  width: 35%;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4c7bfa;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  padding: 5px;
+  margin: 0 5px 10px 5px;
+}
+
+#timetableGrid table{
+  border-collapse: collapse;
+  width: 450px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+#timetableGrid tr,th{
+  width: fit-content;
+}
+
+#timetableGrid input{
+  width: 50px;
+}

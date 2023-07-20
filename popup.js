@@ -1,9 +1,9 @@
 function addTT() {
   chrome.storage.local.get(["timetable"], function (result) {
     let storedData = result.timetable;
-    let tableHTML = '<table style="border-collapse: collapse; width: 100%;">';
+    let tableHTML = '<table style="border-collapse: collapse;">';
     tableHTML +=
-      '<tr><th></th><th style="border: 1px solid black; padding: 8px;">Day</th><th style="border: 1px solid black; padding: 8px;">Time</th><th style="border: 1px solid black; padding: 8px;">Title</th><th style="border: 1px solid black; padding: 8px;">Lecture Hall</th></tr>';
+      '<tr><th></th><th style="border: 1px solid black; padding: 5px;background-color: #4c7bfa;color: white;">Day</th><th style="border: 1px solid black; padding: 5px;background-color: #4c7bfa;color: white;">Time</th><th style="border: 1px solid black; padding: 5px;background-color: #4c7bfa;color: white;">Title</th><th style="border: 1px solid black; padding: 5px;background-color: #4c7bfa;color: white;">Lecture Hall</th></tr>';
     const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
     let i = 0;
     days.forEach((day) => {
@@ -12,18 +12,18 @@ function addTT() {
       dataArray.forEach((data) => {
         const time = data.time;
         const title = data.title;
-        let inpStr = `<td class="${title}" style="border: 1px solid black; padding: 8px;"><input type="text" name="${title}" class="${
+        let inpStr = `<td class="${title}" style="border: 1px solid black; padding: 5px;"><input type="text" name="${title}" class="${
           title + "Inp"
-        }"><button class="${title + "Btn"}">+</button></td>`;
+        }"><button class="${title + "Btn"} addBtn">+</button></td>`;
         const lectureHall = data.lectureHall;
-        let lecStr = `<td style="border: 1px solid black; padding: 8px;">${lectureHall}</td>`;
+        let lecStr = `<td style="border: 1px solid black; padding: 5px;">${lectureHall}</td>`;
         let str = "";
         if (lectureHall === "") {
           str = inpStr;
         } else {
           str = lecStr;
         }
-        tableHTML += `<tr><td style="padding: 8px;"><span class="minus-sign">-</span></td><td style="border: 1px solid black; padding: 8px;">${day}</td><td style="border: 1px solid black; padding: 8px;">${time}</td><td style="border: 1px solid black; padding: 8px;">${title}</td>${str}</tr>`;
+        tableHTML += `<tr><td style="padding: 5px;"><button class="minus-sign">-</button></td><td style="border: 1px solid black; padding: 5px;">${day}</td><td style="border: 1px solid black; padding: 5px;">${time}</td><td style="border: 1px solid black; padding: 5px;">${title}</td>${str}</tr>`;
       });
       if (i !== days.length) {
         tableHTML +=
@@ -49,8 +49,12 @@ document
 document
   .getElementById("timetableBtn")
   .addEventListener("click", async function () {
+    document.getElementById("upcomingClass").style.display = "none";
+    document.getElementById("timetableBtn").style.display = "none";
+    document.getElementById("updateBtn").style.display = "none";
+
     let closeButton = document.createElement("button");
-    closeButton.innerHTML = "Close";
+    closeButton.innerHTML = "Back";
     closeButton.id = "closeButton";
     document.getElementById("closeBtn").appendChild(closeButton);
 
@@ -58,6 +62,9 @@ document
       document.getElementById("closeBtn").innerHTML = "";
       document.getElementById("timetableBtns").innerHTML = "";
       document.getElementById("timetableGrid").innerHTML = "";
+      document.getElementById("upcomingClass").style.display = "";
+      document.getElementById("timetableBtn").style.display = "";
+      document.getElementById("updateBtn").style.display = "";
     });
 
     addTT();
@@ -67,37 +74,59 @@ document
     deleteButton.id = "deleteButton";
     document.getElementById("timetableBtns").appendChild(deleteButton);
 
-    document.getElementById("deleteButton").addEventListener("click", () => {
-      let minusSigns = document.getElementsByClassName("minus-sign");
+    let deleteButtonClicked = false;
 
-      Array.from(minusSigns).forEach(function (minusSign) {
-        minusSign.style.visibility = "visible";
-        minusSign.addEventListener("click", function () {
-          let row = this.parentNode.parentNode;
-          let tdElements = row.getElementsByTagName("td");
-          let day = tdElements[1].textContent;
-          let time = tdElements[2].textContent;
-          let title = tdElements[3].textContent;
+    let deleteBtn = document.getElementById("deleteButton");
 
-          chrome.storage.local.get(["timetable"], (data) => {
-            let timetable = data.timetable;
+    deleteBtn.addEventListener("click", () => {
+      if (deleteButtonClicked) {
+        deleteButtonClicked = false;
+        deleteBtn.innerHTML = "Delete Row";
+        deleteBtn.style.backgroundColor = "#4c7bfa";
+        deleteBtn.style.color = "white";
+        deleteBtn.style.border = "none";
+        let minusSigns = document.getElementsByClassName("minus-sign");
 
-            if (timetable.hasOwnProperty(day)) {
-              timetable[day] = timetable[day].filter(function (element) {
-                return !(element.time === time && element.title === title);
-              });
-
-              chrome.storage.local.set({ timetable: timetable }, function () {
-                console.log("Timetable stored in Chrome Storage:", timetable);
-                console.log("The matching element has been removed");
-                setNotification();
-              });
-            }
-          });
-
-          row.parentNode.removeChild(row);
+        Array.from(minusSigns).forEach((minusSign) => {
+          minusSign.style.visibility = "hidden";
         });
-      });
+      } else {
+        deleteButtonClicked = true;
+        deleteBtn.innerHTML = "Stop Deleting";
+        deleteBtn.style.backgroundColor = "white";
+        deleteBtn.style.color = "#4c7bfa";
+        deleteBtn.style.border = "2px solid #4c7bfa";
+        let minusSigns = document.getElementsByClassName("minus-sign");
+
+        Array.from(minusSigns).forEach(function (minusSign) {
+          minusSign.style.visibility = "visible";
+          minusSign.addEventListener("click", function () {
+            let row = this.parentNode.parentNode;
+            let tdElements = row.getElementsByTagName("td");
+            let day = tdElements[1].textContent;
+            let time = tdElements[2].textContent;
+            let title = tdElements[3].textContent;
+
+            chrome.storage.local.get(["timetable"], (data) => {
+              let timetable = data.timetable;
+
+              if (timetable.hasOwnProperty(day)) {
+                timetable[day] = timetable[day].filter(function (element) {
+                  return !(element.time === time && element.title === title);
+                });
+
+                chrome.storage.local.set({ timetable: timetable }, function () {
+                  console.log("Timetable stored in Chrome Storage:", timetable);
+                  console.log("The matching element has been removed");
+                  setNotification();
+                });
+              }
+            });
+
+            row.parentNode.removeChild(row);
+          });
+        });
+      }
     });
 
     let subjects = [];
@@ -142,9 +171,11 @@ document
                   console.log(
                     "Updated timetable has been stored in Chrome local storage."
                   );
-                  Array.from(document.getElementsByClassName(subject)).forEach((element)=>{
-                    element.innerHTML=lectureHall;
-                  });
+                  Array.from(document.getElementsByClassName(subject)).forEach(
+                    (element) => {
+                      element.innerHTML = lectureHall;
+                    }
+                  );
                 });
               });
             });
