@@ -5,9 +5,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 300px; /* Adjust the height as per your preference */
   background-color: #f2f2f2;
   overflow: hidden;
+  width: fit-content;
+  height: fit-content;
 }
 
 .container {
@@ -34,9 +35,10 @@ body {
   display: grid;
   gap: 10px;
   grid-template-columns: 1fr;
+  padding: 10px;
 }
 
-button {
+.buttons button{
   width: 100%;
   padding: 12px;
   font-size: 16px;
@@ -48,7 +50,12 @@ button {
   transition: background-color 0.3s ease;
 }
 
-button:hover {
+.buttons button:hover {
   background-color: #2656c8;
 }
+
+.minus-sign{
+  visibility: hidden;
+}
+
   

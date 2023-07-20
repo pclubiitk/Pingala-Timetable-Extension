@@ -35,7 +35,7 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
             if (!timetable.hasOwnProperty(day)) {
                 timetable[day] = [];
             }
-            timetable[day].push({ time: time, title: title })
+            timetable[day].push({ time: time, title: title , lectureHall : '' })
         }
       }
       sendResponse({ timetable });
