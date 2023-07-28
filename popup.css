@@ -1,28 +1,23 @@
 body {
   font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 300px; /* Adjust the height as per your preference */
   background-color: #f2f2f2;
-  overflow: hidden;
+  width: 275px;
 }
 
 .container {
-  width: 300px;
-  padding: 20px;
+  width: 100%;
   text-align: center;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   max-height: 100%;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
   
 .header {
-  margin-bottom: 20px;
+  margin-bottom: 7.5px;
 }
 
 .header h2 {
@@ -30,15 +25,8 @@ body {
   color: #333;
 }
 
-.buttons {
-  display: grid;
-  gap: 10px;
-  grid-template-columns: 1fr;
-}
-
-button {
-  width: 100%;
-  padding: 12px;
+.buttons button{
+  width: 75%;
   font-size: 16px;
   border: none;
   border-radius: 5px;
@@ -46,9 +34,192 @@ button {
   color: #fff;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  padding: 5px;
+  margin: 0 5px 10px 5px;
+  animation: fadeIn 1s ease forwards;
 }
 
-button:hover {
+.buttons button:hover {
   background-color: #2656c8;
 }
-  
+
+#timetable #closeBtn{
+  text-align: right;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+#timetable #closeBtn button{
+  color: white;
+  background-color: red;
+  border: none;
+  border-radius: 5px;
+  width: 100px;
+  padding: 5px;
+  font-size: medium;
+  cursor: pointer;
+}
+
+#timetable #timetableBtns{
+  margin-top: 5px;
+}
+
+#timetable #timetableBtns button{
+  width: 35%;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4c7bfa;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  padding: 5px;
+  margin: 0 5px 10px 5px;
+}
+
+.timetable-grid-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  padding: 8px;
+  width: 100%;
+  max-width: 1000px;
+  box-sizing: border-box;
+  animation: fadeIn 1s ease forwards;
+}
+
+.timetable-day {
+  display: grid;
+  gap: 8px;
+  border: 1px solid #ccc;
+  height: min-content;
+  padding: 8px;
+  font-size: 16px;
+  padding-top: 8px;
+}
+
+.day-header {
+  font-weight: bold;
+  background-color: #4c7bfa;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  height: 40px; 
+}
+
+.class-cell {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid blue;
+  padding: 5px;
+  height: 80px; 
+}
+
+.time {
+  font-weight: bold;
+  font-size: 16px; 
+  padding-top: 8px;
+}
+
+.title {
+  margin-top: 4px;
+  font-size: 16px; 
+}
+
+.class-cell:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.05);
+}
+
+.timetable-day:hover .day-header {
+  background-color: #4c7bfa;
+  color: white;
+}
+
+.timetable-header {
+  height: auto;
+  padding: 8px;
+}
+
+#timetableGrid {
+  opacity: 0;
+  transition: opacity 2s;
+}
+
+.minus-btn-container {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin-right: auto;
+}
+
+.minus-btn {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.add-btn-container {
+  display: flex;
+  justify-content: center;
+  flex: 2;
+  align-items: center;
+}
+
+.add-btn {
+  background-color: #4c7bfa;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  visibility: visible;
+}
+
+input {
+  width : 75%;
+  padding: 2px 5px;
+  font-size: 16px; 
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin-top: 5px;
+  margin-right: 5px;
+  text-align: center;
+  visibility: visible;
+}
+
+.txt-btn {
+  margin-top: 4px;
+  font-size: 16px; 
+  visibility: hidden;
+}
+
+.blue-border {
+  border: 1.5px solid blue;
+}
+
+.red-border {
+  border: 2.5px solid red;
+}
