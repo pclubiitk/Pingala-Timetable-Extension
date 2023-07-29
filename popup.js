@@ -4,6 +4,31 @@ document.getElementById('updateBtn').addEventListener('click', async function() 
 });
 
 
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+  if (message.action === "true") {
+    chrome.storage.local.get(['personal_data'], function(result) {
+      console.log(result.personal_data);
+      if(Object.keys(result).length){
+        Add_DashBoard(result.personal_data)
+        window.alert("Your Time Table has been Successfly Updated. Now, Everytime Chrome will Notify you about your upcoming class in 15 min advance.")
+      }
+    })
+  }
+  if(message.action === "Error_Fetch_Timetable"){
+    window.alert("Cannot Update your Time Table. Please Login into your Pingala Portal and go to to Student Pre-Registration Application Page.")
+  }
+  if(message.action === "1"){
+    window.alert("Cannot Fetch LHCs. Please Login into your Pingala Portal and go to to Check Timetable Page.")
+  }
+  if(message.action === "2"){
+    window.alert("Please Select your Academic Session, Semester and then Click 'Show' button. Then Click Fetch Lecture Halls.")
+  }
+  if(message.action === "3"){
+    window.alert("Your LHCs have been fetched Succesfully. You can see them in 'Check TimeTable'.")
+  }
+});
+
+
 chrome.storage.local.get(['personal_data'], function(result) {
   console.log(result.personal_data);
   if(Object.keys(result).length){
@@ -109,6 +134,9 @@ document
                 });
               }
             });
+            setTimeout(() => {
+              LabClashes();
+            }, 500);
           });
         });
       }
@@ -124,15 +152,18 @@ document
 
         for (let i = 0; i < dayArray.length; i++) {
           let subject = dayArray[i].title;
-
+          const LHC = dayArray[i].lectureHall;
+          if(LHC !== ""){
+            Fill_LHC(subject, LHC);
+          }
           if (!subjects.includes(subject)) {
             subjects.push(subject);
           }
         }
       }
+
       subjects.forEach((subject) => {
         let subjectBtn = subject + "Btn" + " add-btn";
-
         Array.from(document.getElementsByClassName(subjectBtn)).forEach(
           (button) => {
             button.addEventListener("click", () => {
@@ -153,22 +184,7 @@ document
                   console.log(
                     "Updated timetable has been stored in Chrome local storage:", timetable
                   );
-                  Array.from(document.getElementsByClassName(subjectBtn)).forEach(
-                    (elem) => {
-                      elem.style.visibility = "hidden";
-                    }
-                  )
-                  Array.from(document.getElementsByClassName(subject+"Inp")).forEach(
-                    (elem) => {
-                      elem.style.visibility = "hidden";
-                    }
-                  )
-                  Array.from(document.getElementsByClassName(subject + " txt-btn")).forEach(
-                    (element) => {
-                      element.innerHTML = lectureHall;
-                      element.style.visibility = "visible";
-                    }
-                  );
+                  Fill_LHC(subject, lectureHall);
                 });
               });
             });
@@ -178,6 +194,27 @@ document
     });
     LHC();
   });
+
+
+function Fill_LHC(subject, lectureHall){
+  let subjectBtn = subject + "Btn" + " add-btn";
+  Array.from(document.getElementsByClassName(subjectBtn)).forEach(
+    (elem) => {
+      elem.style.visibility = "hidden";
+    }
+  )
+  Array.from(document.getElementsByClassName(subject+"Inp")).forEach(
+    (elem) => {
+      elem.style.visibility = "hidden";
+    }
+  )
+  Array.from(document.getElementsByClassName(subject + " txt-btn")).forEach(
+    (element) => {
+      element.innerHTML = lectureHall;
+      element.style.visibility = "visible";
+    }
+  );
+}
 
 
 function addTT() {
@@ -269,15 +306,13 @@ function LabClashes(){
           class_cell = Array.from(document.getElementsByClassName("timetable-day"))[j].getElementsByClassName("class-cell")
           Array.from(class_cell).forEach((elem) => {
             if(elem.getElementsByClassName("time")[0].innerText == x[i].time){
-              if(elem.classList.contains('blue-border')){
-                elem.classList.remove('blue-border');
-                elem.classList.add('red-border');
+              const computedStyle = getComputedStyle(elem);
+              const currentBorderColor = computedStyle.borderColor;
+              if (currentBorderColor === "rgb(0, 0, 255)") {
+                elem.style.border = "4.5px solid red";
+              } else {
+                elem.style.border = "1.5px solid blue";
               }
-              else{
-                elem.classList.remove('red-border');
-                elem.classList.add('blue-border');
-              }
-              elem.style.border = '1px solid red';
             }
           });
         }

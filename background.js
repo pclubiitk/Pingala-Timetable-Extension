@@ -19,6 +19,7 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
       let timetable = response.timetable;
       let personal_data = response.personal_data;
       if(!(Object.keys(timetable).length)){
+        chrome.runtime.sendMessage({action: 'Error_Fetch_Timetable'})
         return
       }
       chrome.storage.local.set({ timetable: timetable}, function() {
@@ -28,6 +29,7 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
       })
       chrome.storage.local.set({ personal_data: personal_data}, function() {
         console.log('Personal Data Fetched:', personal_data)
+        chrome.runtime.sendMessage({action: "true"});
       })
     });
   }
@@ -56,6 +58,9 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
     let LHC = request.data
     console.log('LHC: ',LHC)
     chrome.storage.local.set({ LHC: LHC});
+  }
+  if(request.action === 'alert'){
+    chrome.runtime.sendMessage({action: request.alert_type});
   }
 });
 
