@@ -24,7 +24,10 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
       chrome.storage.local.set({ timetable: timetable}, function() {
         console.log('Timetable stored in Chrome Storage:', timetable)
         console.log("Timetable has been saved")
-        setNotification();
+        const currentDate = new Date()
+        if(currentDate.getDay() < 6 ){
+          setNotification();
+        }
       })
       chrome.storage.local.set({ personal_data: personal_data}, function() {
         console.log('Personal Data Fetched:', personal_data)
