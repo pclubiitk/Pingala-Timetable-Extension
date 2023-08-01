@@ -237,7 +237,7 @@ function addTT() {
                            <div class="title">${title}</div>
                            <div class="${title} txt-btn"></div>
                            <div class="add-btn-container">
-                           <input type="text" class="${title}Inp" placeholder="Enter Lecture Hall">
+                           <input type="text" class="${title}Inp" placeholder="Add LHC">
                            <button class="${title}Btn add-btn">+</button>
                            </div>
                           </div>`;
