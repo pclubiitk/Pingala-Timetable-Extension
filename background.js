@@ -19,6 +19,7 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
       let timetable = response.timetable;
       let personal_data = response.personal_data;
       if(!(Object.keys(timetable).length)){
+        chrome.runtime.sendMessage({action: 'Error_Fetch_Timetable'})
         return
       }
       chrome.storage.local.set({ timetable: timetable}, function() {
@@ -28,6 +29,7 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
       })
       chrome.storage.local.set({ personal_data: personal_data}, function() {
         console.log('Personal Data Fetched:', personal_data)
+        chrome.runtime.sendMessage({action: "true"});
       })
     });
   }
@@ -57,14 +59,20 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
     console.log('LHC: ',LHC)
     chrome.storage.local.set({ LHC: LHC});
   }
+  if(request.action === 'alert'){
+    chrome.runtime.sendMessage({action: request.alert_type});
+  }
 });
 
 
 function setNotification(){
   chrome.storage.local.get(['timetable'], function(result) {
+    let currentDate = new Date()
+    if(currentDate.getDay() > 5){
+      return
+    }
     let storedData = result.timetable
     storedData = Convert(storedData)
-    let currentDate = new Date()
     let x = storedData[Day(currentDate.getDay()-1)]
     let p = 1
     for(let i=0; i<x.length; i++){
@@ -104,9 +112,12 @@ function upcomingClassNotif(NxtClass){
 
 function upcomingClass(){
   chrome.storage.local.get(['timetable'], function(result) {
+    let currentDate = new Date()
+    if(currentDate.getDay() > 5){
+      return
+    }
     let storedData = result.timetable
     stored = Convert(storedData)
-    let currentDate = new Date()
     let curDay = Day(currentDate.getDay()-1)
     let x = stored[curDay]
     let p = 1

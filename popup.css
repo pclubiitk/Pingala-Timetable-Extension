@@ -216,7 +216,7 @@ button:hover {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid blue;
+  border: 1.5px solid blue;
   background-color: #64ccc5;
   padding: 5px;
   height: 85px; 
@@ -322,12 +322,4 @@ input {
   margin-top: 4px;
   font-size: 16px; 
   visibility: hidden;
-}
-
-.blue-border {
-  border: 1.5px solid blue;
-}
-
-.red-border {
-  border: 2.5px solid red;
 }

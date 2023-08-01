@@ -68,7 +68,8 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
         const bodyContent = document.body.innerHTML;
         const parser = new DOMParser();
         const doc = parser.parseFromString(bodyContent, 'text/html');
-        if(!CheckSite_1(doc)){
+        chrome.runtime.sendMessage({action: 'alert', alert_type: CheckSite_1(doc)});
+        if(CheckSite_1(doc) !== '3'){
             return
         }
         let data
@@ -112,58 +113,36 @@ async function search(queries, delay) {
 function CheckSite_1(doc){
     const header = doc.getElementById('headerText')
     if(header == null){
-        InvalidSite_1(1)
-        return false
+        return '1'
     }
     if(header.innerText != ' Check Timetable'){
-        InvalidSite_1(1)
-        return false
+        return '1'
     }
     const show = doc.getElementById('showTimeTableBtn')
     if (showTimeTableBtn.getAttribute('disabled') !== null) {
-        InvalidSite_1(2)
-        return false
+        return '2'
     }
     if(showTimeTableBtn.getAttribute('disabled') == null){
         const table = document.getElementById('datatable');
         const tbody = table.tBodies[0]
         if(tbody.innerText === 'No data available in table'){
             InvalidSite_1(2)
-            return false
+            return '2'
         }
     }
-    alert('Your LHCs have been fetched Succesfully. You can see them in "Check Full TimeTable".')
-    return true
+    return '3'
 }
 
 
 function CheckSite(doc){
     const header = doc.getElementById('headerText')
     if(header === null){
-        InvalidSite()
         return false
     }
     if(header.innerText !==  ' Student Pre-Registration Application' && header.innerText !== ' Student Registration Application' ){
-        InvalidSite()
         return false
     }
-    alert('Your Time Table has been Successfly Updated. Now, Everytime Chrome will Notify you about your upcoming class in 15 min advance.')
     return true
-}
-
-
-function InvalidSite(){
-    alert('Cannot Update your Time Table. Please Login into your Pingala Portal and go to to Student Pre-Registration Application Page.')
-}
-
-
-function InvalidSite_1(x){
-    if(x == 1){
-        alert('Cannot Fetch LHCs. Please Login into your Pingala Portal and go to to Check Timetable Page.')
-    }
-    if(x == 2){
-        alert('Please Select your Academic Session, Semester and then Click "Show" button. Then Click Fetch Lecture Halls.')
-    }
 }
 
 
