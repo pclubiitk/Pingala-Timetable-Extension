@@ -10,12 +10,12 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
       console.log(result.personal_data);
       if(Object.keys(result).length){
         Add_DashBoard(result.personal_data)
-        window.alert("Your Time Table has been Successfly Updated. Now, Everytime Chrome will Notify you about your upcoming class in 15 min advance.")
+        window.alert("Your TimeTable has been successfully updated.")
       }
     })
   }
   if(message.action === "Error_Fetch_Timetable"){
-    window.alert("Cannot Update your Time Table. Please Login into your Pingala Portal and go to to Student Pre-Registration Application Page.")
+    window.alert("Cannot Update your TimeTable. Please login to your Pingala Portal and ensure you are on a page that shows your TimeTable")
   }
   if(message.action === "1"){
     window.alert("Cannot Fetch LHCs. Please Login into your Pingala Portal and go to to Check Timetable Page.")

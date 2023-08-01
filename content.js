@@ -139,7 +139,7 @@ function CheckSite(doc){
     if(header === null){
         return false
     }
-    if(header.innerText !==  ' Student Pre-Registration Application' && header.innerText !== ' Student Registration Application' ){
+    if(!header.innerText.includes('Student Pre-Registration Application') && !header.innerText.includes('Student Registration Application') && !header.innerText.includes('Student Add & Drop Application') ){
         return false
     }
     return true
