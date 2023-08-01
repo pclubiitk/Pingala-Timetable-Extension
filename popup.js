@@ -94,7 +94,7 @@ document
       if (deleteButtonClicked) {
         deleteButtonClicked = false;
         deleteBtn.innerHTML = "Delete Class";
-        deleteBtn.style.backgroundColor = "#b38add";
+        deleteBtn.style.backgroundColor = "#64ccc5";
         deleteBtn.style.color = "white";
         deleteBtn.style.border = "none";
         let minusSigns = document.getElementsByClassName("minus-btn");
