@@ -6,8 +6,8 @@ function getPersonalData(){
                      .getElementsByTagName('li')[1].innerText;
     let roll_no=document.getElementsByClassName('row col-lg-12')[0].getElementsByClassName('col-lg-6')[0].getElementsByTagName('div')[0].innerText;
     let programme=document.getElementsByClassName('row col-lg-12')[0].getElementsByClassName('col-lg-6')[1].getElementsByTagName('div')[0].innerText;
-    let dept=document.getElementsByClassName('row col-lg-12')[1].getElementsByClassName('col-lg-6')[1].getElementsByTagName('div')[0].innerText;
-    let appliedCredits=document.getElementsByClassName('row col-lg-12')[3].getElementsByClassName('col-lg-6')[0].getElementsByTagName('div')[0].innerText;
+    let dept=document.getElementsByClassName('row col-lg-12')[2].getElementsByClassName('col-lg-6')[0].getElementsByTagName('div')[0].innerText;
+    let appliedCredits=document.getElementsByClassName('row col-lg-12')[1].getElementsByClassName('col-lg-6')[1].getElementsByTagName('div')[0].innerText;
     let sem="";
     for(let i=0;i<str.length;i++){
         if((str[i]>='0'&&str[i]<='9')||str[i]==='/') sem+=str[i];
