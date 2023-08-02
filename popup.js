@@ -105,7 +105,7 @@ document
       } else {
         deleteButtonClicked = true;
         deleteBtn.innerHTML = "Stop Deleting";
-        deleteBtn.style.backgroundColor = "white";
+        deleteBtn.style.backgroundColor = "#dafffb";
         deleteBtn.style.color = "#4c7bfa";
         deleteBtn.style.border = "2px solid #4c7bfa";
         let minusSigns = document.getElementsByClassName("minus-btn");
@@ -286,7 +286,7 @@ function Add_DashBoard(x){
   sem.innerHTML="Semester : " + "<b>"+x.sem+"</b>";
   list.appendChild(sem);
   let appliedCredits=document.createElement('li');
-  appliedCredits.innerHTML="Applied Credits: "+"<b>"+x.appliedCredits+"</b>";
+  appliedCredits.innerHTML="Applied Credits : "+"<b>"+x.appliedCredits+"</b>";
   list.appendChild(appliedCredits);
   listDiv.appendChild(list);
   personalDataDiv.appendChild(listDiv);
