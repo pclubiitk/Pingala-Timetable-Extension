@@ -2,12 +2,36 @@ function getPersonalData(){
     let dp=document.getElementsByClassName('pull-left image')[0].getElementsByTagName('img')[0].src;
     let name=document.getElementsByClassName('pull-left info')[0].getElementsByTagName('p')[0].innerHTML.trim();
     let str=document.getElementsByClassName('content-header')[0]
-                     .getElementsByClassName('breadcrumb')[0]
-                     .getElementsByTagName('li')[1].innerText;
-    let roll_no=document.getElementsByClassName('row col-lg-12')[0].getElementsByClassName('col-lg-6')[0].getElementsByTagName('div')[0].innerText;
-    let programme=document.getElementsByClassName('row col-lg-12')[0].getElementsByClassName('col-lg-6')[1].getElementsByTagName('div')[0].innerText;
-    let dept=document.getElementsByClassName('row col-lg-12')[1].getElementsByClassName('col-lg-6')[1].getElementsByTagName('div')[0].innerText;
-    let appliedCredits=document.getElementsByClassName('row col-lg-12')[3].getElementsByClassName('col-lg-6')[0].getElementsByTagName('div')[0].innerText;
+    .getElementsByClassName('breadcrumb')[0]
+    .getElementsByTagName('li')[1].innerText;
+    
+    
+    let d=document.getElementsByClassName('col-lg-6');
+    let roll_no;
+    let programme;
+    let dept;
+    let appliedCredits;
+    for(let i=1;i<d.length;i++){
+        if(d[i].getElementsByTagName('div')[0].previousElementSibling.innerText==="Applied Credits :"){
+            appliedCredits=d[i].getElementsByTagName('div')[0].innerText;
+        }
+        else if(d[i].getElementsByTagName('div')[0].previousElementSibling.innerText==="Roll No. :"){
+            roll_no=d[i].getElementsByTagName('div')[0].innerText;
+        }
+        else if(d[i].getElementsByTagName('div')[0].previousElementSibling.innerText==="Programme :"){
+            programme=d[i].getElementsByTagName('div')[0].innerText;
+        }
+        else if(d[i].getElementsByTagName('div')[0].previousElementSibling.innerText==="Department :"){
+            dept=d[i].getElementsByTagName('div')[0].innerText;
+        }
+    }
+        
+    // let roll_no=document.getElementsByClassName('row col-lg-12')[0].getElementsByClassName('col-lg-6')[0].getElementsByTagName('div')[0].innerText;
+    // let programme=document.getElementsByClassName('row col-lg-12')[0].getElementsByClassName('col-lg-6')[1].getElementsByTagName('div')[0].innerText;
+    // let dept=document.getElementsByClassName('row col-lg-12')[2].getElementsByClassName('col-lg-6')[0].getElementsByTagName('div')[0].innerText;
+    // let appliedCredits=document.getElementsByClassName('row col-lg-12')[1].getElementsByClassName('col-lg-6')[1].getElementsByTagName('div')[0].innerText;
+
+
     let sem="";
     for(let i=0;i<str.length;i++){
         if((str[i]>='0'&&str[i]<='9')||str[i]==='/') sem+=str[i];
@@ -139,7 +163,7 @@ function CheckSite(doc){
     if(header === null){
         return false
     }
-    if(!header.innerText.includes('Student Pre-Registration Application') && !header.innerText.includes('Student Registration Application') && !header.innerText.includes('Student Add & Drop Application') ){
+    if(!header.innerText.includes('Application')){
         return false
     }
     return true

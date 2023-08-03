@@ -94,7 +94,7 @@ document
       if (deleteButtonClicked) {
         deleteButtonClicked = false;
         deleteBtn.innerHTML = "Delete Class";
-        deleteBtn.style.backgroundColor = "#b38add";
+        deleteBtn.style.backgroundColor = "#64ccc5";
         deleteBtn.style.color = "white";
         deleteBtn.style.border = "none";
         let minusSigns = document.getElementsByClassName("minus-btn");
@@ -105,7 +105,7 @@ document
       } else {
         deleteButtonClicked = true;
         deleteBtn.innerHTML = "Stop Deleting";
-        deleteBtn.style.backgroundColor = "white";
+        deleteBtn.style.backgroundColor = "#dafffb";
         deleteBtn.style.color = "#4c7bfa";
         deleteBtn.style.border = "2px solid #4c7bfa";
         let minusSigns = document.getElementsByClassName("minus-btn");
@@ -237,7 +237,7 @@ function addTT() {
                            <div class="title">${title}</div>
                            <div class="${title} txt-btn"></div>
                            <div class="add-btn-container">
-                           <input type="text" class="${title}Inp" placeholder="Enter Lecture Hall">
+                           <input type="text" class="${title}Inp" placeholder="Add LHC">
                            <button class="${title}Btn add-btn">+</button>
                            </div>
                           </div>`;
@@ -286,7 +286,7 @@ function Add_DashBoard(x){
   sem.innerHTML="Semester : " + "<b>"+x.sem+"</b>";
   list.appendChild(sem);
   let appliedCredits=document.createElement('li');
-  appliedCredits.innerHTML="Applied Credits: "+"<b>"+x.appliedCredits+"</b>";
+  appliedCredits.innerHTML="Applied Credits : "+"<b>"+x.appliedCredits+"</b>";
   list.appendChild(appliedCredits);
   listDiv.appendChild(list);
   personalDataDiv.appendChild(listDiv);
