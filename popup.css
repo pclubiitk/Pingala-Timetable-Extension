@@ -1,37 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&family=Wix+Madefor+Display:wght@500&display=swap');
+
 body {
   font-family: Arial, sans-serif;
-  background-color: #f2f2f2;
-  width: 275px;
+  font-family: 'Quicksand', sans-serif;
+  margin: 0;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 560px;
+  background-color: #ffffff;
+  overflow: hidden;
+  display:flex;
+  flex-direction: column;
 }
-
-.container {
-  width: 100%;
-  text-align: center;
-  background-color: #fff;
+  
+.personal{
+  display:flex;
+  flex-direction:column;
+  flex-wrap: wrap;
+  font-size:15px;
+  justify-content: center;
   border-radius: 10px;
+  margin-bottom:16.08px;
+  margin-bottom: 20px;
+}
+.personalData{
+  margin-top:20px;
+  text-align: left;
+  background-color: #001c30;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.imgDiv{
+  margin-top:-20px;
+  height:120px;
+}
+.imgDivBox{
+  margin-left:auto;
+  margin-right:auto;
+  width:110px;
+  height:70px;
+  background-color: #64ccc5;
+  display:flex;
+  flex-direction: column-reverse;
+}
+img{
+  border:10px solid;
+  border-color: #001c30;
+  position:relative;
+  top:-47.5px;
+}
+.nameDiv{
+  margin-left:-20px;
+  margin-right:-20px;
+  margin-top:20px;
+  text-align: center;
+  background-color: #64ccc5;
+  color:black;
+  font-family: 'Quicksand', sans-serif;
+}
+.list{
+  color:#dafffb;
+  list-style-type:none;
+}
+ul{
+  padding-inline-start: 0px;
+}
+.container {
+  border-radius: 10px;
+  width: 320px;
+  padding: 20px;
+  text-align: center;
+  background-color: #001c30;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   max-height: 100%;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
-  
+h1{
+  font-size: 25px;
+  margin:0px;
+  margin-top:10px;
+}
+h3{
+  margin:0px;
+  margin-bottom:10px;
+}
+
+
+.tt{
+  color:#dafffb;
+  margin-bottom:10px;
+}
+
+.listDiv{
+  display:flex;
+  justify-content: center;
+
+}
+
 .header {
-  margin-bottom: 7.5px;
+  margin-top:-20px;
 }
 
 .header h2 {
   font-size: 18px;
-  color: #333;
+  color: #001c30;
 }
 
-.buttons button{
-  width: 75%;
+.buttons {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr;
+}
+
+button {
+  font-family: 'Quicksand', sans-serif;
+  width: 100%;
+  padding: 12px;
   font-size: 16px;
   border: none;
   border-radius: 5px;
-  background-color: #4c7bfa;
-  color: #fff;
+  background-color: #64ccc5;
+  color: black;
   cursor: pointer;
   transition: background-color 0.3s ease;
   padding: 5px;
@@ -39,8 +133,13 @@ body {
   animation: fadeIn 1s ease forwards;
 }
 
-.buttons button:hover {
-  background-color: #2656c8;
+button:hover {
+  background-color: #4ab3ac;
+  
+}
+
+.hide{
+  display: none;
 }
 
 #timetable #closeBtn{
@@ -50,14 +149,16 @@ body {
 }
 
 #timetable #closeBtn button{
-  color: white;
-  background-color: red;
+  background-color: #dafffb;
   border: none;
   border-radius: 5px;
   width: 100px;
   padding: 5px;
   font-size: medium;
   cursor: pointer;
+}
+#timetable #closeBtn button:hover{
+  background-color: #bbebe6;
 }
 
 #timetable #timetableBtns{
@@ -69,7 +170,7 @@ body {
   font-size: 16px;
   border: none;
   border-radius: 5px;
-  background-color: #4c7bfa;
+  background-color: #64ccc5;
   color: #fff;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -91,20 +192,23 @@ body {
 .timetable-day {
   display: grid;
   gap: 8px;
-  border: 1px solid #ccc;
+  /* border: 1px solid #dafffb; */
   height: min-content;
   padding: 8px;
   font-size: 16px;
   padding-top: 8px;
+  /* border-radius: 8%; */
 }
 
 .day-header {
   font-weight: bold;
-  background-color: #4c7bfa;
-  color: white;
+  background-color: #35a49d;
+  color: black;
   padding: 5px;
   text-align: center;
   height: 40px; 
+  border-radius:8px;
+  transition:0.3s;
 }
 
 .class-cell {
@@ -112,9 +216,12 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid blue;
+  border: 1.5px solid blue;
+  background-color: #64ccc5;
   padding: 5px;
-  height: 80px; 
+  height: 85px; 
+  border-radius:8px;
+  transition: 0.3s;
 }
 
 .time {
@@ -129,13 +236,13 @@ body {
 }
 
 .class-cell:hover {
-  background-color: #f0f0f0;
+  background-color: #dafffb;
   transform: scale(1.05);
 }
 
 .timetable-day:hover .day-header {
-  background-color: #4c7bfa;
-  color: white;
+  background-color: #64ccc5;
+  color: black;
 }
 
 .timetable-header {
@@ -163,7 +270,7 @@ body {
   width: 20px;
   height: 20px;
   background-color: red;
-  color: #fff;
+  color: #ffffff;
   font-size: 14px;
   font-weight: bold;
   border: none;
@@ -171,6 +278,7 @@ body {
   cursor: pointer;
   justify-content: center;
   align-items: center;
+  padding: 0;
 }
 
 
@@ -182,7 +290,7 @@ body {
 }
 
 .add-btn {
-  background-color: #4c7bfa;
+  background-color: blue;
   color: #fff;
   font-size: 14px;
   font-weight: bold;
@@ -214,12 +322,4 @@ input {
   margin-top: 4px;
   font-size: 16px; 
   visibility: hidden;
-}
-
-.blue-border {
-  border: 1.5px solid blue;
-}
-
-.red-border {
-  border: 2.5px solid red;
 }

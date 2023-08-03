@@ -1,11 +1,14 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&family=Wix+Madefor+Display:wght@500&display=swap');
+body {  
+    font-family: 'Quicksand', sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
+    /* width:500px; */
     margin: 0;
     padding: 0;
-    background-color: #f8f8f8;
+    background-color: white;
   }
   
   .container {
@@ -13,7 +16,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #ffffff;
+    background-color: #001c30;
     padding: 30px;
     border-radius: 5px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -23,34 +26,31 @@ body {
   h2 {
     margin: 0;
     margin-bottom: 20px;
-    font-size: 24px;
-    color: #333333;
+    font-size: 22px;
+    color: #dafffb;
   }
   
   p.instructions {
     margin: 0;
     margin-bottom: 10px;
     font-size: 16px;
-    color: #555555;
+    color: #dafffb;
   }
   
   button {
     padding: 10px 20px;
     font-size: 16px;
     border-radius: 5px;
-    background-color: #4caf50;
-    color: #ffffff;
+    background-color: #64ccc5;
+    color: #001c30;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s;
+    font-family: 'Quicksand', sans-serif;
   }
   
   button:hover {
-    background-color: #45a049;
-  }
-  
-  button:active {
-    background-color: #3e8e41;
+    background-color: #39aea6;
   }
   
   button:focus {
