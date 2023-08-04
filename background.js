@@ -181,6 +181,7 @@ function showTT(){
         <th style="height: min(7vh,90px); border: 2px solid white; width: 18%; padding: 4px;">Friday</th></tr>`;
 
     for (let i = 8; i <= 18; i++) {
+      let color;
       tableHTML += `<tr>`;
       tableHTML += `
         <td style="font-weight: bold; width: auto; color: gray; height: min(7vh,90px);border: 2px solid white; padding: 8px; white-space: nowrap;">
@@ -190,10 +191,9 @@ function showTT(){
       for (let j = 0; j < 5; j++) {
         const day = Day(j);
         const classes = storedData[day]
-        let lecture;
-        let lab;
-        let conti_lec;
-        let conti_lab;
+        let Class;
+        let type;
+        let conti_Class;
         let end_slot;
         
         classes.forEach(data => {
@@ -201,11 +201,13 @@ function showTT(){
           const end_num = data.time_end.slice(0,2)
           const start_sun = data.time.slice(-2)
           const end_sun = data.time_end.slice(-2)
+          type = data.title.slice(0,3)
           let start_hour;
           let end_hour;
-          conti_lab = 0;
+          conti_Class = 0;
           conti_lec = 0;
 
+          //extracting value of time
           if(strat_num>9){
             start_hour = data.time.slice(0,2)
             start_hour = parseInt(start_hour)
@@ -224,6 +226,7 @@ function showTT(){
             end_hour = parseInt(end_hour)
           }
 
+          //24-hour clock
           if(start_sun == 'PM' & start_hour != 12){
             start_hour+= 12
           }
@@ -232,115 +235,52 @@ function showTT(){
             end_hour+= 12
           }
 
-          if(start_hour==i && end_hour-start_hour != 3){
-            lecture = data.title
-          } else if(start_hour==i && end_hour-start_hour == 3){
-            lab = data.title
+          //lec vs Class
+          if(start_hour==i && type=="Prc"){
+            Class = data.title
+            color = "#9f70b8";
+          } else if(start_hour==i){
+            Class = data.title
+            color = "#368fb6";
           }
 
           for (let k = 1; k < end_hour - start_hour; k++){
-            if(start_hour+k == i && end_hour-start_hour == 3){
-              conti_lab = 1
-            }else if(start_hour+k == i && end_hour-start_hour != 3 && end_hour-start_hour>1){
-              conti_lec = 1
+            if(start_hour+k == i && type == "Prc"){
+              conti_Class = 1
+              color = "#9f70b8";
+            }else if(start_hour+k == i){
+              conti_Class = 1
+              color = "#368fb6";
             }
           }
 
           if(end_hour-start_hour>1 && i == end_hour-1){ end_slot= true}
         });
 
-        if(lecture){
+        if(Class){
           tableHTML += `
-            <td 
-              style="
-                  height: min(7vh,90px);
-                  border-top: 2px solid white; 
-                  border-right: 2px solid white; 
-                  padding: 4px;
-              "
-            >
-              <div 
-                style="
-                  background-color: #368fb6; 
-                  color: white; 
-                  font-weight: 500; 
-                  height: 100%; 
-                  padding-top: 8px; 
-                  border-radius: 7px; 
-                  text-align: center; 
-                  display: flex; 
-                  justify-content: space-around; 
-                  justify-items: center; 
-                  padding-bottom: 0;
-                "
-              >
-                ${lecture}
+            <td style="height: min(7vh,90px);border-top: 2px solid white; border-right: 2px solid white; padding: 4px;">
+              <div style="background-color: ${color}; color: white; font-weight: 500; height: 100%; padding-top: 8px; border-radius: 7px; text-align: center; display: flex; justify-content: space-around; justify-items: center; padding-bottom: 0; ">                
+                ${Class}
               </div>
             </td>`;
-
-        }else if(lab){
-          tableHTML += `
-            <td 
-              style="
-                height: min(7vh,90px);
-                border-top: 2px solid white;
-                border-right: 2px solid white;
-                padding-bottom: 0px;
-                padding-left: 4px;
-                padding-right: 4px;
-                padding-top: 2px;
-                border-collapse: collapse;              "
-            >
-              <div 
-                style=" 
-                  background-color: #9f70b8; 
-                  color: white; 
-                  font-weight: 500; 
-                  height: 100%; 
-                  border-top-left-radius: 7px; 
-                  border-top-right-radius: 7px; 
-                  text-align: center; 
-                  padding-bottom: 0;
-                "
-              >
-                ${lab}
-              </div>
-            </td>`;
-        }else if(conti_lab){
+        }else if(conti_Class){
           if(end_slot){
             tableHTML += `
               <td style="height: min(7vh,90px); border-right: 2px solid white; padding-top: 0; padding-bottom: 2px; padding-left: 4px; padding-right: 4px;">
-                <div style="background-color: #9f70b8; color: white; font-weight: 500; height: 100%; border-bottom-left-radius: 7px; border-bottom-right-radius: 7px;">
+                <div style="background-color: ${color}; color: white; font-weight: 500; height: 100%; border-bottom-left-radius: 7px; border-bottom-right-radius: 7px;">
                 </div>
               </td>`;
             }else{
               tableHTML += `
                 <td style="height: min(7vh,90px); border-right: 2px solid white; padding-top: 0; padding-bottom: 0; padding-left: 4px; padding-right: 4px;">
-                  <div style="background-color: #9f70b8; color: white; font-weight: 500; height: 120%;">
+                  <div style="background-color: ${color}; color: white; font-weight: 500; height: 120%;">
                   </div>
                 </td>`;
               }
-       }else if(conti_lec){
-        if(end_slot){
-          tableHTML += `
-            <td style="height: min(7vh,90px); border-right: 2px solid white; padding-top: 0; padding-bottom: 2px; padding-left: 4px; padding-right: 4px;">
-              <div style="background-color: #368fb6 color: white; font-weight: 500; height: 100%; border-bottom-left-radius: 7px; border-bottom-right-radius: 7px;">
-              </div>
-            </td>`;
-          }else{
-            tableHTML += `
-              <td style="height: min(7vh,90px); border-right: 2px solid white; padding-top: 0; padding-bottom: 0; padding-left: 4px; padding-right: 4px;">
-                <div style="background-color: #368fb6; color: white; font-weight: 500; height: 120%;">
-                </div>
-              </td>`;
-            }
-     }else{
+       }else{
           tableHTML += `<td style="height: min(7vh,90px);border: 2px solid white; padding: 8px;"></td>`;
         }
-
-        // else if(conti_lec){
-        //   tableHTML += `<td style="height: min(8vh,100px);border-right: 1px solid black; padding: 8px; background-color: pink "></td>`;
-        // }
       }
 
       tableHTML += `</tr>`;
