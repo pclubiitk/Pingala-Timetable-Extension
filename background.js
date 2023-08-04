@@ -205,26 +205,28 @@ function showTT(){
           let end_hour;
 
           if(strat_num>9){
-              start_hour = data.time.slice(0,2)
+            start_hour = data.time.slice(0,2)
+            start_hour = parseInt(start_hour)
               
           }else{
-              start_hour = data.time[0]
+            start_hour = data.time[0]
+            start_hour = parseInt(start_hour)
           }
 
           if(end_num>9){
             end_hour = data.time_end.slice(0,2)
+            end_hour = parseInt(end_hour)
             
           }else{
-              end_hour = data.time_end[0]
+            end_hour = data.time_end[0]
+            end_hour = parseInt(end_hour)
           }
 
-          if(start_sun=='PM'){
-            start_hour = parseInt(start_hour)
+          if(start_sun == 'PM' & start_hour != 12){
             start_hour+= 12
           }
 
-          if(end_sun=='PM'){
-            end_hour = parseInt(end_hour)
+          if(end_sun == 'PM' & start_hour != 12){
             end_hour+= 12
           }
 
