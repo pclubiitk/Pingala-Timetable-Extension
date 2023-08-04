@@ -203,6 +203,8 @@ function showTT(){
           const end_sun = data.time_end.slice(-2)
           let start_hour;
           let end_hour;
+          conti_lab = 0;
+          conti_lec = 0;
 
           if(strat_num>9){
             start_hour = data.time.slice(0,2)
@@ -239,12 +241,12 @@ function showTT(){
           for (let k = 1; k < end_hour - start_hour; k++){
             if(start_hour+k == i && end_hour-start_hour == 3){
               conti_lab = 1
-            }else if(start_hour+k == i && end_hour-start_hour != 3){
+            }else if(start_hour+k == i && end_hour-start_hour != 3 && end_hour-start_hour>1){
               conti_lec = 1
             }
           }
 
-          if(end_hour-start_hour==3 && i == end_hour-1){ end_slot= true}
+          if(end_hour-start_hour>1 && i == end_hour-1){ end_slot= true}
         });
 
         if(lecture){
@@ -318,7 +320,21 @@ function showTT(){
                   </div>
                 </td>`;
               }
-       }else{
+       }else if(conti_lec){
+        if(end_slot){
+          tableHTML += `
+            <td style="height: min(7vh,90px); border-right: 2px solid white; padding-top: 0; padding-bottom: 2px; padding-left: 4px; padding-right: 4px;">
+              <div style="background-color: #368fb6 color: white; font-weight: 500; height: 100%; border-bottom-left-radius: 7px; border-bottom-right-radius: 7px;">
+              </div>
+            </td>`;
+          }else{
+            tableHTML += `
+              <td style="height: min(7vh,90px); border-right: 2px solid white; padding-top: 0; padding-bottom: 0; padding-left: 4px; padding-right: 4px;">
+                <div style="background-color: #368fb6; color: white; font-weight: 500; height: 120%;">
+                </div>
+              </td>`;
+            }
+     }else{
           tableHTML += `<td style="height: min(7vh,90px);border: 2px solid white; padding: 8px;"></td>`;
         }
 
