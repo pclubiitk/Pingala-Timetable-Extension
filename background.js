@@ -68,7 +68,8 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
 function setNotification(){
   chrome.storage.local.get(['timetable'], function(result) {
     let currentDate = new Date()
-    if(currentDate.getDay() > 5){
+    if(currentDate.getDay() == 6 || currentDate.getDay() == 0){
+      Notify_no_class()
       return
     }
     let storedData = result.timetable
@@ -113,7 +114,8 @@ function upcomingClassNotif(NxtClass){
 function upcomingClass(){
   chrome.storage.local.get(['timetable'], function(result) {
     let currentDate = new Date()
-    if(currentDate.getDay() > 5){
+    if(currentDate.getDay() == 6 || currentDate.getDay() == 0){
+      Notify_no_class()
       return
     }
     let storedData = result.timetable
@@ -140,6 +142,7 @@ function upcomingClass(){
 function showTT(){
   chrome.storage.local.get(['timetable'], function(result) {
     let storedData = result.timetable
+    let n=[0, 0, 0, 0, 0];
     tableHTML = `
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  
@@ -162,6 +165,7 @@ function showTT(){
 
     for (let i = 8; i <= 18; i++) {
       let color;
+      let width;
       tableHTML += `<tr>`;
       tableHTML += `
         <td style="font-weight: bold; width: auto; color: gray; height: min(7vh,90px);border: 2px solid white; padding: 8px; white-space: nowrap;">
@@ -171,7 +175,7 @@ function showTT(){
       for (let j = 0; j < 5; j++) {
         const day = Day(j);
         const classes = storedData[day]
-        let Class;
+        let Class=[];
         let type;
         let conti_Class;
         let end_slot;
@@ -185,7 +189,7 @@ function showTT(){
           let start_hour;
           let end_hour;
           conti_Class = 0;
-          conti_lec = 0;
+          n=n;
 
           //extracting value of time
           if(strat_num>9){
@@ -217,11 +221,15 @@ function showTT(){
 
           //lec vs Class
           if(start_hour==i && type=="Prc"){
-            Class = data.title
+            Class.push(data.title)
             color = "#9f70b8";
           } else if(start_hour==i){
-            Class = data.title
+            Class.push(data.title)
             color = "#368fb6";
+          }
+
+          if(Class.length>0){
+            n[j] = Class.length
           }
 
           for (let k = 1; k < end_hour - start_hour; k++){
@@ -237,24 +245,42 @@ function showTT(){
           if(end_hour-start_hour>1 && i == end_hour-1){ end_slot= true}
         });
 
-        if(Class){
+        if(Class.length!=0){
           tableHTML += `
-            <td style="height: min(7vh,90px);border-top: 2px solid white; border-right: 2px solid white; padding: 4px;">
-              <div style="background-color: ${color}; color: white; font-weight: 500; height: 100%; padding-top: 8px; border-radius: 7px; text-align: center; display: flex; justify-content: space-around; justify-items: center; padding-bottom: 0; ">                
-                ${Class}
-              </div>
-            </td>`;
+            <td style="height: min(7vh,90px);border-top: 2px solid white; border-right: 2px solid white; padding: 4px; align-items: center;">
+              <div style="display: flex; flex-direction: row; align-items: center; align-content: center; width: 100%; height:min(6vh,80px); text-align: center; justify-content:space-around">`
+          for(let k=0; k<Class.length; k++){
+            tableHTML += `
+                <div style="z-index: +2;background-color: ${color}; color: white; font-weight: 500; height: 100%; flex-grow:1; padding-top: 8px; padding-bottom:0; border-radius: 7px; text-align: center; display: flex; justify-content: space-around; justify-items: center; margin:2px;">          
+                ${Class[k]}
+                </div>`
+            }
+            tableHTML += `
+                </div>
+              </td>`;
         }else if(conti_Class){
           if(end_slot){
             tableHTML += `
-              <td style="height: min(7vh,90px); border-right: 2px solid white; padding-top: 0; padding-bottom: 2px; padding-left: 4px; padding-right: 4px;">
-                <div style="background-color: ${color}; color: white; font-weight: 500; height: 100%; border-bottom-left-radius: 7px; border-bottom-right-radius: 7px;">
-                </div>
-              </td>`;
+            <td style="height: min(7vh,90px);border-top: 2px solid white; border-right: 2px solid white; padding: 4px; align-items: center;">
+              <div style="display: flex; flex-direction: row; align-items: center; align-content: center; width: 100%; height:min(6vh,80px); text-align: center; justify-content:space-around">`
+              for(let l=0; l<n[j]; l++){
+                tableHTML += `
+                    <div style="background-color: ${color}; color: white; font-weight: 500; height: 100%; flex-grow:1; padding-top: 8px; padding-bottom:0; border-radius: 7px; text-align: center; display: flex; justify-content: space-around; justify-items: center; margin:2px;">          
+                    </div>`
+                }
+              tableHTML += `
+                  </div>
+                </td>`;
             }else{
               tableHTML += `
-                <td style="height: min(7vh,90px); border-right: 2px solid white; padding-top: 0; padding-bottom: 0; padding-left: 4px; padding-right: 4px;">
-                  <div style="background-color: ${color}; color: white; font-weight: 500; height: 120%;">
+                <td style="height: min(7vh,90px);border-top: 2px solid white; border-right: 2px solid white; padding: 4px; align-items: center;">
+                <div style="display: flex; flex-direction: row; align-items: center; align-content: center; width: 100%; height:min(6vh,80px); text-align: center; justify-content:space-around">`
+              for(let m=0; m<n[j]; m++){
+                tableHTML += `
+                    <div style=" background-color: ${color}; color: white; font-weight: 500; height: 150%; flex-grow:1; padding-top: 8px; padding-bottom:0; text-align: center; display: flex; justify-content: space-around; justify-items: center; margin:2px;">         
+                    </div>`
+                }
+              tableHTML += `
                   </div>
                 </td>`;
               }
@@ -267,6 +293,7 @@ function showTT(){
     }
     tableHTML += `</table>`
     tableHTML += `</div>`;
+    
     chrome.tabs.create({ url: 'data:text/html;charset=utf-8,' + encodeURIComponent(tableHTML) });
   });
 }
