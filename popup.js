@@ -6,13 +6,21 @@ document.getElementById('updateBtn').addEventListener('click', async function() 
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
   if (message.action === "true") {
+    const data = document.querySelector('.personalData');
+    if(data){
+      data.remove();
+    }
+    const img = document.querySelector('.imgDiv');
+    if(img){
+      img.remove();
+    }
     chrome.storage.local.get(['personal_data'], function(result) {
       console.log(result.personal_data);
       if(Object.keys(result).length){
         Add_DashBoard(result.personal_data)
-        window.alert("Your TimeTable has been successfully updated.")
       }
     })
+    window.alert("Your TimeTable has been successfully updated.")
   }
   if(message.action === "Error_Fetch_Timetable"){
     window.alert("Cannot Update your TimeTable. Please login to your Pingala Portal and ensure you are on a page that shows your TimeTable")
@@ -250,20 +258,10 @@ function addTT() {
   });
 }
 
-let count_personal_data_req=0;
 function Add_DashBoard(x) {
-  count_personal_data_req++;
   let personalDataDiv;
-  if (count_personal_data_req == 1) {
-    personalDataDiv = document.createElement("div");
-    personalDataDiv.classList.add("personalData");
-  }
-  else {
-    personalDataDiv = document.getElementsByClassName("personalData")[0];
-    while (parentDiv.firstChild) {
-      parentDiv.removeChild(parentDiv.firstChild);
-    }
-  }
+  personalDataDiv = document.createElement("div");
+  personalDataDiv.classList.add("personalData");
   let imgDiv = document.createElement("div");
     let imgDivBox = document.createElement("div");
     imgDiv.classList.add("imgDiv");
