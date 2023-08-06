@@ -68,7 +68,8 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
 function setNotification(){
   chrome.storage.local.get(['timetable'], function(result) {
     let currentDate = new Date()
-    if(currentDate.getDay() > 5){
+    if(currentDate.getDay() == 6 || currentDate.getDay() == 0){
+      Notify_no_class();
       return
     }
     let storedData = result.timetable
@@ -113,7 +114,8 @@ function upcomingClassNotif(NxtClass){
 function upcomingClass(){
   chrome.storage.local.get(['timetable'], function(result) {
     let currentDate = new Date()
-    if(currentDate.getDay() > 5){
+    if(currentDate.getDay() == 6 || currentDate.getDay() == 0){
+      Notify_no_class();
       return
     }
     let storedData = result.timetable
