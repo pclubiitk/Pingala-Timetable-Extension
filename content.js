@@ -48,7 +48,9 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
       const doc = parser.parseFromString(bodyContent, 'text/html');
       let timetable = {}
       let personal_data = {}
+      let flag = 1;
       if(!CheckSite(doc)){
+        flag = 0;
         sendResponse({timetable: timetable, personal_data: personal_data});
         return
       }
@@ -85,6 +87,9 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
             }
             timetable[day].push({ time: time_start, time_end: time_end, title: title , lectureHall : '' })
         }
+      }
+      if(flag && !(Object.keys(timetable).length)){
+        timetable = dummyTimetable();
       }
       sendResponse({timetable: timetable, personal_data: personal_data});
     }
@@ -186,4 +191,40 @@ function Day(d){
     if(d == 4){
         return "Friday"
     }
+}
+
+function dummyTimetable(){
+    let timetable = {};
+    timetable["Monday"] = []
+    timetable["Monday"].push({time: "8:00 AM", time_end: "9:00 AM", title: "Lec-ESC201", lectureHall: ""})
+    timetable["Monday"].push({time: "10:00 AM", time_end: "11:00 AM", title: "Lec-ESO207", lectureHall: ""})
+    timetable["Monday"].push({time: "11:00 AM", time_end: "12:00 PM", title: "Lec-ESO204", lectureHall: ""})
+    timetable["Monday"].push({time: "12:00 PM", time_end: "1:00 PM", title: "Lec-CS201", lectureHall: ""})
+    timetable["Monday"].push({time: "2:00 PM", time_end: "5:00 PM", title: "Prc-ESC201", lectureHall: ""})
+
+    timetable["Tuesday"] = []
+    timetable["Tuesday"].push({time: "2:00 PM", time_end: "5:00 PM", title: "Prc-ESC201", lectureHall: ""})
+
+    timetable["Wednesday"] = []
+    timetable["Wednesday"].push({time: "8:00 AM", time_end: "9:00 AM", title: "Lec-ESC201", lectureHall: ""})
+    timetable["Wednesday"].push({time: "10:00 AM", time_end: "11:00 AM", title: "Lec-ESO207", lectureHall: ""})
+    timetable["Wednesday"].push({time: "11:00 AM", time_end: "12:00 PM", title: "Lec-ESO204", lectureHall: ""})
+    timetable["Wednesday"].push({time: "12:00 PM", time_end: "1:00 PM", title: "Lec-CS201", lectureHall: ""})
+    timetable["Wednesday"].push({time: "2:00 PM", time_end: "5:00 PM", title: "Prc-ESC201", lectureHall: ""})
+
+    timetable["Thursday"] = []
+    timetable["Thursday"].push({time: "8:00 AM", time_end: "9:00 AM", title: "Tut-ESC201", lectureHall: ""})
+    timetable["Thursday"].push({time: "10:00 AM", time_end: "11:00 AM", title: "Tut-ESO207", lectureHall: ""})
+    timetable["Thursday"].push({time: "11:00 AM", time_end: "12:00 PM", title: "Tut-ESO204", lectureHall: ""})
+    timetable["Thursday"].push({time: "12:00 PM", time_end: "1:00 PM", title: "Tut-CS201", lectureHall: ""})
+    timetable["Thursday"].push({time: "2:00 PM", time_end: "5:00 PM", title: "Prc-ESC201", lectureHall: ""})
+
+    timetable["Friday"] = []
+    timetable["Friday"].push({time: "8:00 AM", time_end: "9:00 AM", title: "Lec-ESC201", lectureHall: ""})
+    timetable["Friday"].push({time: "10:00 AM", time_end: "11:00 AM", title: "Lec-ESO207", lectureHall: ""})
+    timetable["Friday"].push({time: "11:00 AM", time_end: "12:00 PM", title: "Lec-ESO204", lectureHall: ""})
+    timetable["Friday"].push({time: "12:00 PM", time_end: "1:00 PM", title: "Lec-CS201", lectureHall: ""})
+    timetable["Friday"].push({time: "2:00 PM", time_end: "5:00 PM", title: "Prc-ESC201", lectureHall: ""})
+
+    return timetable;
 }
