@@ -144,33 +144,13 @@ function showTT(){
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
-      <div 
-        style=" 
-          display: flex; 
-          align-items: center; 
-          justify-content: space-around; 
-          flex-direction: column;
-          font-family: 'Quicksand', sans-serif;
-        "
-      >`;
+    <div style=" display: flex; align-items: center; justify-content: space-around; flex-direction: column; font-family: 'Quicksand', sans-serif;">`;
     tableHTML += `
       <div style="font-size: min(7vw,50px); padding: min(.4rem,20px); width: 100%; text-align: center;">
         CLASS SCHEDULE
       </div>`
     tableHTML += `
-      <table 
-        class="timetable-table" 
-        style=" 
-          text-align: center; 
-          overflow: hidden; 
-          width: min(100%,80rem); 
-          max-height: 100%; 
-          border-spacing: 0; 
-          border-collapse: collapse; 
-          border-radius: 16px; 
-          background-color: rgb(243, 243, 243);
-        "
-      >`;
+      <table class="timetable-table" style=" text-align: center; overflow: hidden; width: min(100%,80rem); max-height: 100%; border-spacing: 0; border-collapse: collapse; border-radius: 16px; background-color: rgb(243, 243, 243);">`;
     tableHTML += `
       <tr>
         <th style="height: min(6vh,40x); border: 2px solid white; width: auto; padding: 4px;"></th>

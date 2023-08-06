@@ -10,6 +10,8 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
       console.log(result.personal_data);
       if(Object.keys(result).length){
         Add_DashBoard(result.personal_data)
+        document.getElementById('Show_TT').classList.remove('hide');
+        document.getElementById('timetableBtn').classList.remove('hide');
         window.alert("Your TimeTable has been successfully updated.")
       }
     })
