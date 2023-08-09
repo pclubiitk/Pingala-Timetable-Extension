@@ -252,48 +252,61 @@ function addTT() {
   });
 }
 
-function Add_DashBoard(x){
-  let personalDataDiv=document.createElement('div');
-  personalDataDiv.classList.add("personalData");
-  let imgDiv=document.createElement('div');
-  let imgDivBox=document.createElement('div');
-  imgDiv.classList.add("imgDiv");
-  imgDivBox.classList.add("imgDivBox");
-  let img=document.createElement('img');
-  let nameDiv=document.createElement('div');
-  let listDiv=document.createElement('div');
-  nameDiv.classList.add('nameDiv');
-  listDiv.classList.add('listDiv');
-  let n=document.createElement('h1');
-  let r=document.createElement('h3');
-  let list=document.createElement('ul');
-  list.classList.add('list');
-  n.innerHTML="<b>"+x.name+"</b>";
-  r.innerHTML="<b>"+x.roll_no+"</b>";
-  nameDiv.appendChild(n);
-  nameDiv.appendChild(r);
-  personalDataDiv.appendChild(nameDiv);
-  let val=x.dp;
-  img.src=val;
-  imgDiv.appendChild(imgDivBox);
-  imgDiv.appendChild(img);
-  document.getElementsByClassName('personal')[0].appendChild(imgDiv);
-  let programme=document.createElement('li');
-  programme.innerHTML="Programme : "+"<b>"+x.programme+"</b>";
-  list.appendChild(programme);
-  let dept=document.createElement('li');
-  dept.innerHTML="Department : " + "<b>"+x.dept+"</b>";
-  list.appendChild(dept);
-  let sem=document.createElement('li');
-  sem.innerHTML="Semester : " + "<b>"+x.sem+"</b>";
-  list.appendChild(sem);
-  let appliedCredits=document.createElement('li');
-  appliedCredits.innerHTML="Applied Credits : "+"<b>"+x.appliedCredits+"</b>";
-  list.appendChild(appliedCredits);
-  listDiv.appendChild(list);
-  personalDataDiv.appendChild(listDiv);
-  document.getElementsByClassName('personal')[0].appendChild(personalDataDiv);
-  document.getElementsByTagName('img')[0].style="border-radius:100%;width:110px;height:110px;object-fit:cover;object-position:0% 0%;margin-top:auto;margin-bottom:auto;";
+let count_personal_data_req=0;
+function Add_DashBoard(x) {
+  count_personal_data_req++;
+  let personalDataDiv;
+  if (count_personal_data_req == 1) {
+    personalDataDiv = document.createElement("div");
+    personalDataDiv.classList.add("personalData");
+  }
+  else {
+    personalDataDiv = document.getElementsByClassName("personalData")[0];
+    while (parentDiv.firstChild) {
+      parentDiv.removeChild(parentDiv.firstChild);
+    }
+  }
+  let imgDiv = document.createElement("div");
+    let imgDivBox = document.createElement("div");
+    imgDiv.classList.add("imgDiv");
+    imgDivBox.classList.add("imgDivBox");
+    let img = document.createElement("img");
+    let nameDiv = document.createElement("div");
+    let listDiv = document.createElement("div");
+    nameDiv.classList.add("nameDiv");
+    listDiv.classList.add("listDiv");
+    let n = document.createElement("h1");
+    let r = document.createElement("h3");
+    let list = document.createElement("ul");
+    list.classList.add("list");
+    n.innerHTML = "<b>" + x.name + "</b>";
+    r.innerHTML = "<b>" + x.roll_no + "</b>";
+    nameDiv.appendChild(n);
+    nameDiv.appendChild(r);
+    personalDataDiv.appendChild(nameDiv);
+    let val = x.dp;
+    img.src = val;
+    imgDiv.appendChild(imgDivBox);
+    imgDiv.appendChild(img);
+    document.getElementsByClassName("personal")[0].appendChild(imgDiv);
+    let programme = document.createElement("li");
+    programme.innerHTML = "Programme : " + "<b>" + x.programme + "</b>";
+    list.appendChild(programme);
+    let dept = document.createElement("li");
+    dept.innerHTML = "Department : " + "<b>" + x.dept + "</b>";
+    list.appendChild(dept);
+    let sem = document.createElement("li");
+    sem.innerHTML = "Semester : " + "<b>" + x.sem + "</b>";
+    list.appendChild(sem);
+    let appliedCredits = document.createElement("li");
+    appliedCredits.innerHTML =
+      "Applied Credits : " + "<b>" + x.appliedCredits + "</b>";
+    list.appendChild(appliedCredits);
+    listDiv.appendChild(list);
+    personalDataDiv.appendChild(listDiv);
+    document.getElementsByClassName("personal")[0].appendChild(personalDataDiv);
+    document.getElementsByTagName("img")[0].style =
+      "border-radius:100%;width:110px;height:110px;object-fit:cover;object-position:0% 0%;margin-top:auto;margin-bottom:auto;";
 }
 
 
