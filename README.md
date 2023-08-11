@@ -18,8 +18,9 @@ The extension also has a built-in notification system. The user will receive tim
 
 ### 5. Class Management
 The user has the flexibility to remove any unwanted class or lab from his/her timetable. The extension even identifies clashes where two classes are scheduled simultaneously, marking them in red for easy identification and removal.
+
 ### 6. Customised User Dashboard
-The extension also displays the user's name, roll number, programme, department, semester and the number of applied credits.
+The extension also displays the user's Picture, Name, Roll Number, Programme, Department, Semester and the Number of Applied Credits.
 
 ## How to Use
 
