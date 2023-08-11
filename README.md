@@ -11,7 +11,7 @@ The user can fetch his/her timetable from either the Student Add-Drop Applicatio
 The user can fetch the lecture hall information (wherever available) directly from the check timetable page and seamlessly update it in the stored timetable. This feature ensures that the user's timetable remains accurate and up-to-date.
 
 ### 3. Full Timetable View
-The user can view his/her complete timetable in a dedicated tab within the extension. This allows the user to have a comprehensive overview of your classes, labs, and free periods all in one place.
+The user can view his/her complete timetable in a new tab. This allows the user to have a comprehensive overview of your classes, labs, and free periods all in one place.
 
 ### 4. Notification System
 The extension also has a built-in notification system. The user will receive timely notifications 15 minutes before every class.
