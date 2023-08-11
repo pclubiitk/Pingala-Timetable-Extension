@@ -5,7 +5,7 @@ The Pingala Timetable Chrome Extension is a powerful tool designed to enhance st
 ## Features
 
 ### 1. Timetable Import
-The user can fetch his/her timetable from either the student add-drop application or the student pre-registration page. The imported timetable is stored securely within the extension, ensuring easy access and management.
+The user can fetch his/her timetable from either the Student Add-Drop Application Page or the Student Pre-Registration Application Page. The imported timetable is stored securely within the extension, ensuring easy access and management.
 
 ### 2. Lecture Hall Update
 The user can fetch the lecture hall information (wherever available) directly from the check timetable page and seamlessly update it in the stored timetable. This feature ensures that the user's timetable remains accurate and up-to-date.
@@ -22,7 +22,7 @@ The user has the flexibility to remove any unwanted class or lab from his/her ti
 ## How to Use
 
 1. **Installation**: Install the Pingala Timetable Chrome Extension from the Chrome Web Store.
-2. **Fetching Timetable**: Navigate to the student add-drop application or the pre-registration page and click on `Fetch TimeTable` whenever you want to fetch a new timetable.
+2. **Fetching Timetable**: Navigate to the Student Add-Drop Application Page or the Student Pre-Registration Application Page and click on `Fetch TimeTable` whenever you want to fetch a new timetable.
 3. **Updating Lecture Halls**: Visit the check timetable page, select the year and semester, click on show. Then open the extension and click on `Fetch Lecture Halls` to fetch the lecture hall information(wherever available).
 4. **Viewing Timetable and Class Management**: Click on `Check Timetable` to view the currently stored timetable. To delete any class, click on `Delete Class` and then Click on the '-' icon in red to delete any class. When you are done, click on `Stop Deleting` to save the changes.
 5. **Notifications**: Receive timely class notifications 15 minutes before each class.
