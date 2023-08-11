@@ -1,6 +1,6 @@
 # Pingala Timetable Chrome Extension
 
-The Pingala Timetable Chrome Extension is a powerful tool designed to enhance student experience by simplifying timetable management and providing timely class notifications.
+The Pingala Timetable Chrome Extension is a tool designed to enhance student experience by simplifying timetable management and providing timely class notifications.
 
 ## Features
 
