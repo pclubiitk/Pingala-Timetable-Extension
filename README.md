@@ -25,7 +25,7 @@ The user has the flexibility to remove any unwanted class or lab from his/her ti
 2. **Fetching Timetable**: Navigate to the Student Add-Drop Application Page or the Student Pre-Registration Application Page and click on `Fetch TimeTable` whenever you want to fetch a new timetable.
 3. **Updating Lecture Halls**: Visit the check timetable page, select the year and semester, click on show. Then open the extension and click on `Fetch Lecture Halls` to fetch the lecture hall information(wherever available).
 4. **Viewing Timetable and Class Management**: Click on `Check Timetable` to view the currently stored timetable. To delete any class, click on `Delete Class` and then Click on the '-' icon in red to delete any class. When you are done, click on `Stop Deleting` to save the changes.
-5. **Notifications**: Receive timely class notifications 15 minutes before each class.
+5. **Upcoming Class Notifications**: Receive timely class notifications 15 minutes before each class. Further, Click on `Upcoming Class` to manually get a notification about the next class.
 
 
 ## Privacy and Security
