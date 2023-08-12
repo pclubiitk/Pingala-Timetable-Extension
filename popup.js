@@ -261,7 +261,7 @@ function Add_DashBoard(x) {
   else {
     personalDataDiv = document.getElementsByClassName("personalData")[0];
     while (personalDataDiv.firstChild) {
-      personalDataDiv.removeChild(parentDiv.firstChild);
+      personalDataDiv.removeChild(personalDataDiv.firstChild);
     }
   }
   let imgDiv = document.createElement("div");
