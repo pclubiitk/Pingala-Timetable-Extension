@@ -9,8 +9,8 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     chrome.storage.local.get(['personal_data'], function(result) {
       console.log(result.personal_data);
       if(Object.keys(result).length){
-        Add_DashBoard(result.personal_data)
         window.alert("Your TimeTable has been successfully updated.")
+        Add_DashBoard(result.personal_data)
       }
     })
   }
