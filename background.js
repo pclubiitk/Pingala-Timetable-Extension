@@ -175,7 +175,7 @@ function showTT(){
         const classes = storedData[day]
         let Class=[];
         let type;
-        let conti_Class=0;
+        let conti_Class;
         let end_slot;
         let start_hour;
         let end_hour;
@@ -188,7 +188,6 @@ function showTT(){
           type = data.title.slice(0,3)
           start_hour=0;
           end_hour=0;
-          conti_Class = 0;
           n=n;
 
           //extracting value of time
@@ -253,7 +252,7 @@ function showTT(){
               <div style="display: flex; flex-direction: row; align-items: center; align-content: center; width: 100%; height:min(6vh,80px); text-align: center; justify-content:space-around">`
           for(let k=0; k<Class.length; k++){
             tableHTML += `
-                <div style="z-index: +2;background-color: ${color}; color: white; font-weight: 500; height: 100%; flex-grow:1; padding-top: 8px; padding-bottom:0; border-radius: 7px; text-align: center; display: flex; justify-content: space-around; justify-items: center; margin:2px;">          
+                <div style="z-index: +2;background-color: ${color}; color: white; font-weight: 500; height: 100%; flex:1; padding-top: 8px; padding-bottom:0; border-radius: 7px; text-align: center; display: flex; justify-content: space-around; justify-items: center; margin:2px;">          
                 ${Class[k]} 
                 </div>`
             }
