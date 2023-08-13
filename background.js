@@ -284,7 +284,7 @@ function showTT(){
               </div>
             </td>`;
           }else{
-            tableHTML += `<td style="height: min(7vh,90px);border: 2px solid white; padding: 8px;">${conti_Class}</td>`;
+            tableHTML += `<td style="height: min(7vh,90px);border: 2px solid white; padding: 8px;"></td>`;
           }
       }
 
