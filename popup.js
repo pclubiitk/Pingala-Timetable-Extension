@@ -9,8 +9,8 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     chrome.storage.local.get(['personal_data'], function(result) {
       console.log(result.personal_data);
       if(Object.keys(result).length){
-        Add_DashBoard(result.personal_data)
         window.alert("Your TimeTable has been successfully updated.")
+        Add_DashBoard(result.personal_data)
       }
     })
   }
@@ -260,8 +260,8 @@ function Add_DashBoard(x) {
   }
   else {
     personalDataDiv = document.getElementsByClassName("personalData")[0];
-    while (parentDiv.firstChild) {
-      parentDiv.removeChild(parentDiv.firstChild);
+    while (personalDataDiv.firstChild) {
+      personalDataDiv.removeChild(personalDataDiv.firstChild);
     }
   }
   let imgDiv = document.createElement("div");
