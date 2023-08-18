@@ -13,6 +13,7 @@ body {
   overflow: hidden;
   display:flex;
   flex-direction: column;
+  width:350px;
 }
   
 .personal{
