@@ -146,7 +146,6 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
           for(const day in days){
             timetable[days[day]].sort(compareTime);
           }
-          console.log(timetable)
         }
         sendResponse({ timetable: timetable, personal_data: personal_data });
 

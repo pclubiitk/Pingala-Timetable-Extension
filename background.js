@@ -219,7 +219,6 @@ function showTT(){
           }
           
           //lec vs Class
-          console.log(start_hour)
           if(start_hour==i && type=="Prc"){
             Class.push(data.title)
             color = "#c92f65";
@@ -235,7 +234,6 @@ function showTT(){
           if(Class.length>0){
             n[j] = Class.length
           }
-          console.log(type)
           for (let k = 1; k < end_hour - start_hour; k++){
             if(start_hour+k == i && type == "Prc" ){
               conti_Class = 1
@@ -255,7 +253,6 @@ function showTT(){
 
           if(end_hour-start_hour>1 && i == end_hour-1){ end_slot= true}
         });
-        console.log(Class)
         if(Class.length!=0){
           tableHTML += `
             <td style="height: min(7vh,90px);border-top: 2px solid white; border-right: 2px solid white; padding: 4px; align-items: center;">
@@ -343,8 +340,6 @@ function Notify_urgent(ClassTime, title){
 
 function Notify_15(ClassTime, title){
   const timeDifference = calculateTimeDifference(ClassTime,15);
-  console.log(ClassTime)
-  console.log(timeDifference)
   setTimeout(function() {
     chrome.notifications.create('upcoming Class in 15 min', {
       type: 'basic',

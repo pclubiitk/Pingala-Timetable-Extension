@@ -11,7 +11,6 @@ document
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message.action === "true") {
     chrome.storage.local.get(["personal_data"], function (result) {
-      console.log(result.personal_data);
       if (Object.keys(result).length) {
         window.alert("Your TimeTable has been successfully updated.");
         Add_DashBoard(result.personal_data);
@@ -41,7 +40,6 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 });
 
 chrome.storage.local.get(["personal_data"], function (result) {
-  console.log(result.personal_data);
   if (Object.keys(result).length) {
     Add_DashBoard(result.personal_data);
   }
@@ -282,7 +280,14 @@ function addTT() {
       gridHTML += `<div class="timetable-day">
                       <div class="day-header">${day}</div>`;
       dataArray.forEach((data) => {
-        const time = data.time;
+        let time = data.time;
+        if(parseInt(time.slice(0,2))>=12){
+          time += " PM";
+        }
+        else time+= " AM";
+        if(parseInt(time.slice(0,2))>12){
+          time = time.slice(0,2) - 12 + time.slice(2);
+        }
         const title = data.title;
         const classCell = `<div class="class-cell">
                            <div class="minus-btn-container">
@@ -370,7 +375,14 @@ function LabClashes() {
             document.getElementsByClassName("timetable-day")
           )[j].getElementsByClassName("class-cell");
           Array.from(class_cell).forEach((elem) => {
-            if (elem.getElementsByClassName("time")[0].innerText == x[i].time) {
+            let time = x[i].time;
+            if (parseInt(time.slice(0, 2)) >= 12) {
+              time += " PM";
+            } else time += " AM";
+            if (parseInt(time.slice(0, 2)) > 12) {
+              time = time.slice(0, 2) - 12 + time.slice(2);
+            }
+            if (elem.getElementsByClassName("time")[0].innerText == time) {
               const computedStyle = getComputedStyle(elem);
               const currentBorderColor = computedStyle.borderColor;
               if (currentBorderColor === "rgb(0, 0, 255)") {
@@ -386,10 +398,10 @@ function LabClashes() {
   });
 }
 
-document.getElementById("LHC").addEventListener("click", async function () {
-  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  chrome.runtime.sendMessage({ action: "LHC", tabId: tab.id });
-});
+// document.getElementById("LHC").addEventListener("click", async function () {
+//   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+//   chrome.runtime.sendMessage({ action: "LHC", tabId: tab.id });
+// });
 
 function LHC() {
   chrome.storage.local.get(["LHC"], function (result) {
