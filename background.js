@@ -194,9 +194,9 @@ function showTT(){
           if(strat_num>9){
             start_hour = data.time.slice(0,2)
             start_hour = parseInt(start_hour)
-              
+            
           }else{
-            start_hour = data.time[0]
+            start_hour = data.time[1]
             start_hour = parseInt(start_hour)
           }
 
@@ -205,7 +205,7 @@ function showTT(){
             end_hour = parseInt(end_hour)
             
           }else{
-            end_hour = data.time_end[0]
+            end_hour = data.time_end[1]
             end_hour = parseInt(end_hour)
           }
 
@@ -213,39 +213,49 @@ function showTT(){
           if(start_sun == 'PM' && start_hour != 12){
             start_hour += 12
           }
-
+          
           if(end_sun == 'PM' && end_hour != 12){
             end_hour += 12
           }
-
+          
           //lec vs Class
+          console.log(start_hour)
           if(start_hour==i && type=="Prc"){
             Class.push(data.title)
-            color = "#9f70b8";
-          } else if(start_hour==i){
+            color = "#c92f65";
+          } else if(start_hour==i&&type=="Lec"){
             Class.push(data.title)
-            color = "#368fb6";
+            color = "#0956b3";
+          
+          } else if(start_hour==i&&type=="Tut"){
+            Class.push(data.title)
+            color = "#0a8c0d";
           }
 
           if(Class.length>0){
             n[j] = Class.length
           }
-
+          console.log(type)
           for (let k = 1; k < end_hour - start_hour; k++){
             if(start_hour+k == i && type == "Prc" ){
               conti_Class = 1
-              color = "#9f70b8";
+              color = "#c92f65";
               temp = start_hour + k
-            }else if(start_hour+k == i && (type == "Tut" || type == "Lec")){
+            }else if(start_hour+k == i && (type == "Lec")){
               conti_Class = 1
-              color = "#368fb6";
+              color = "#0956b3";
+              temp = start_hour + k   
+            }
+            else if(start_hour+k == i && (type == "Tut")){
+              conti_Class = 1
+              color = "#0a8c0d";
               temp = start_hour + k
             }
           }
 
           if(end_hour-start_hour>1 && i == end_hour-1){ end_slot= true}
         });
-
+        console.log(Class)
         if(Class.length!=0){
           tableHTML += `
             <td style="height: min(7vh,90px);border-top: 2px solid white; border-right: 2px solid white; padding: 4px; align-items: center;">

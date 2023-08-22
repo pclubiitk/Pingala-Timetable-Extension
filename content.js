@@ -135,7 +135,7 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
                     timetable[day].push({
                     time: practicalData[0].start,
                     time_end: practicalData[0].end,
-                    title: "Prac-"+removeExtas(x[1].innerText),
+                    title: "Prc-"+removeExtas(x[1].innerText),
                     lectureHall: ''
                   });
                 }

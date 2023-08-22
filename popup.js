@@ -308,16 +308,14 @@ function addTT() {
 let count_personal_data_req = 0;
 function Add_DashBoard(x) {
   count_personal_data_req++;
-  let personalDataDiv;
-  if (count_personal_data_req == 1) {
-    personalDataDiv = document.createElement("div");
-    personalDataDiv.classList.add("personalData");
-  } else {
-    personalDataDiv = document.getElementsByClassName("personalData")[0];
+  if (count_personal_data_req > 1) {
+    personalDataDiv = document.getElementsByClassName("personal")[0];
     while (personalDataDiv.firstChild) {
       personalDataDiv.removeChild(personalDataDiv.firstChild);
     }
   }
+  let personalDataDiv = document.createElement("div");
+  personalDataDiv.classList.add("personalData");
   let imgDiv = document.createElement("div");
   let imgDivBox = document.createElement("div");
   imgDiv.classList.add("imgDiv");
@@ -360,7 +358,6 @@ function Add_DashBoard(x) {
   document.getElementsByTagName("img")[0].style =
     "border-radius:100%;width:110px;height:110px;object-fit:cover;object-position:0% 0%;margin-top:auto;margin-bottom:auto;";
 }
-
 function LabClashes() {
   chrome.storage.local.get(["timetable"], function (result) {
     const timetable = result.timetable;
