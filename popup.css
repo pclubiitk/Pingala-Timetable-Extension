@@ -4,13 +4,14 @@ body {
   font-family: Arial, sans-serif;
   font-family: 'Quicksand', sans-serif;
   margin: 0;
-  padding: 10px;
+  /* padding: 5px; */
   display: flex;
   align-items: center;
   justify-content: center;
   height: 560px;
   background-color: #ffffff;
   overflow: hidden;
+
 }
   
 .personal{
@@ -66,7 +67,7 @@ ul{
   padding-inline-start: 0px;
 }
 .container {
-  border-radius: 10px;
+  /* border-radius: 10px; */
   width: 320px;
   padding: 20px;
   text-align: center;
