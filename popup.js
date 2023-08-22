@@ -137,7 +137,14 @@ document
 
               if (timetable.hasOwnProperty(day)) {
                 timetable[day] = timetable[day].filter(function (element) {
-                  return !(element.time === time && element.title === title);
+                  let compareTime = element.time;
+                  if (parseInt(compareTime.slice(0, 2)) >= 12) {
+                    compareTime += " PM";
+                  } else compareTime += " AM";
+                  if (parseInt(compareTime.slice(0, 2)) > 12) {
+                    compareTime = compareTime.slice(0, 2) - 12 + compareTime.slice(2);
+                  }
+                  return !(compareTime === time && element.title === title);
                 });
 
                 chrome.storage.local.set({ timetable: timetable }, function () {
