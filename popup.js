@@ -68,7 +68,7 @@ document
     document.getElementById("upcomingClass").style.display = "none";
     document.getElementById("timetableBtn").style.display = "none";
     document.getElementById("updateBtn").style.display = "none";
-    document.getElementById("LHC").style.display = "none";
+    // document.getElementById("LHC").style.display = "none";
     document.getElementsByClassName("personal")[0].style.display = "none";
     const ContainerElement = document.getElementsByClassName("container")[0];
     let closeButton = document.createElement("button");
@@ -86,7 +86,7 @@ document
       document.getElementById("upcomingClass").style.display = "";
       document.getElementById("timetableBtn").style.display = "";
       document.getElementById("updateBtn").style.display = "";
-      document.getElementById("LHC").style.display = "";
+      // document.getElementById("LHC").style.display = "";
       document.getElementsByClassName("personal")[0].style.display = "";
       timetableGrid.style.opacity = "0";
     });
@@ -289,10 +289,10 @@ function addTT() {
                            <button class="minus-btn">-</button>
                            </div>
                            <div class="time">${time}</div>
-                           <div class="title">${title}</div>
+                           <div class="title" style="font-size:14px">${title}</div>
                            <div class="add-btn-container">
-                           <p class="${title} txt-btn"></p>
-                           <input type="text" class="${title}Inp" placeholder="Add LHC">
+                           <p class="${title} txt-btn" style="padding-left:20px;font-size:14px"></p>
+                           <input type="text" class="${title}Inp" placeholder="Add LHC"  style="font-size:14px">
                            <button class="${title}Btn add-btn">+</button>
                            </div>
                           </div>`;
