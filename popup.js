@@ -11,7 +11,6 @@ document
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message.action === "true") {
     chrome.storage.local.get(["personal_data"], function (result) {
-      console.log(result.personal_data);
       if (Object.keys(result).length) {
         window.alert("Your TimeTable has been successfully updated.");
         Add_DashBoard(result.personal_data);
@@ -41,7 +40,6 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 });
 
 chrome.storage.local.get(["personal_data"], function (result) {
-  console.log(result.personal_data);
   if (Object.keys(result).length) {
     Add_DashBoard(result.personal_data);
   }
@@ -68,7 +66,7 @@ document
     document.getElementById("upcomingClass").style.display = "none";
     document.getElementById("timetableBtn").style.display = "none";
     document.getElementById("updateBtn").style.display = "none";
-    document.getElementById("LHC").style.display = "none";
+    // document.getElementById("LHC").style.display = "none";
     document.getElementsByClassName("personal")[0].style.display = "none";
     const ContainerElement = document.getElementsByClassName("container")[0];
     let closeButton = document.createElement("button");
@@ -86,7 +84,7 @@ document
       document.getElementById("upcomingClass").style.display = "";
       document.getElementById("timetableBtn").style.display = "";
       document.getElementById("updateBtn").style.display = "";
-      document.getElementById("LHC").style.display = "";
+      // document.getElementById("LHC").style.display = "";
       document.getElementsByClassName("personal")[0].style.display = "";
       timetableGrid.style.opacity = "0";
     });
@@ -139,7 +137,14 @@ document
 
               if (timetable.hasOwnProperty(day)) {
                 timetable[day] = timetable[day].filter(function (element) {
-                  return !(element.time === time && element.title === title);
+                  let compareTime = element.time;
+                  if (parseInt(compareTime.slice(0, 2)) >= 12) {
+                    compareTime += " PM";
+                  } else compareTime += " AM";
+                  if (parseInt(compareTime.slice(0, 2)) > 12) {
+                    compareTime = compareTime.slice(0, 2) - 12 + compareTime.slice(2);
+                  }
+                  return !(compareTime === time && element.title === title);
                 });
 
                 chrome.storage.local.set({ timetable: timetable }, function () {
@@ -282,17 +287,24 @@ function addTT() {
       gridHTML += `<div class="timetable-day">
                       <div class="day-header">${day}</div>`;
       dataArray.forEach((data) => {
-        const time = data.time;
+        let time = data.time;
+        if(parseInt(time.slice(0,2))>=12){
+          time += " PM";
+        }
+        else time+= " AM";
+        if(parseInt(time.slice(0,2))>12){
+          time = time.slice(0,2) - 12 + time.slice(2);
+        }
         const title = data.title;
         const classCell = `<div class="class-cell">
                            <div class="minus-btn-container">
                            <button class="minus-btn">-</button>
                            </div>
                            <div class="time">${time}</div>
-                           <div class="title">${title}</div>
+                           <div class="title" style="font-size:14px">${title}</div>
                            <div class="add-btn-container">
-                           <p class="${title} txt-btn"></p>
-                           <input type="text" class="${title}Inp" placeholder="Add LHC">
+                           <p class="${title} txt-btn" style="padding-left:20px;font-size:14px"></p>
+                           <input type="text" class="${title}Inp" placeholder="Add LHC"  style="font-size:14px">
                            <button class="${title}Btn add-btn">+</button>
                            </div>
                           </div>`;
@@ -308,16 +320,14 @@ function addTT() {
 let count_personal_data_req = 0;
 function Add_DashBoard(x) {
   count_personal_data_req++;
-  let personalDataDiv;
-  if (count_personal_data_req == 1) {
-    personalDataDiv = document.createElement("div");
-    personalDataDiv.classList.add("personalData");
-  } else {
-    personalDataDiv = document.getElementsByClassName("personalData")[0];
+  if (count_personal_data_req > 1) {
+    personalDataDiv = document.getElementsByClassName("personal")[0];
     while (personalDataDiv.firstChild) {
       personalDataDiv.removeChild(personalDataDiv.firstChild);
     }
   }
+  let personalDataDiv = document.createElement("div");
+  personalDataDiv.classList.add("personalData");
   let imgDiv = document.createElement("div");
   let imgDivBox = document.createElement("div");
   imgDiv.classList.add("imgDiv");
@@ -360,7 +370,6 @@ function Add_DashBoard(x) {
   document.getElementsByTagName("img")[0].style =
     "border-radius:100%;width:110px;height:110px;object-fit:cover;object-position:0% 0%;margin-top:auto;margin-bottom:auto;";
 }
-
 function LabClashes() {
   chrome.storage.local.get(["timetable"], function (result) {
     const timetable = result.timetable;
@@ -373,7 +382,14 @@ function LabClashes() {
             document.getElementsByClassName("timetable-day")
           )[j].getElementsByClassName("class-cell");
           Array.from(class_cell).forEach((elem) => {
-            if (elem.getElementsByClassName("time")[0].innerText == x[i].time) {
+            let time = x[i].time;
+            if (parseInt(time.slice(0, 2)) >= 12) {
+              time += " PM";
+            } else time += " AM";
+            if (parseInt(time.slice(0, 2)) > 12) {
+              time = time.slice(0, 2) - 12 + time.slice(2);
+            }
+            if (elem.getElementsByClassName("time")[0].innerText == time) {
               const computedStyle = getComputedStyle(elem);
               const currentBorderColor = computedStyle.borderColor;
               if (currentBorderColor === "rgb(0, 0, 255)") {
@@ -389,10 +405,10 @@ function LabClashes() {
   });
 }
 
-document.getElementById("LHC").addEventListener("click", async function () {
-  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  chrome.runtime.sendMessage({ action: "LHC", tabId: tab.id });
-});
+// document.getElementById("LHC").addEventListener("click", async function () {
+//   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+//   chrome.runtime.sendMessage({ action: "LHC", tabId: tab.id });
+// });
 
 function LHC() {
   chrome.storage.local.get(["LHC"], function (result) {
