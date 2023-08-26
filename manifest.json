@@ -1,6 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Class Reminder",
+    "description": "s a tool designed to enhance student experience by simplifying timetable management and providing timely class notifications. ",
     "version": "1.0",
     "permissions": [
         "notifications",
