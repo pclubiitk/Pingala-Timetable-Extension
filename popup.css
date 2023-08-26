@@ -22,7 +22,7 @@ body {
   justify-content: center;
   border-radius: 10px;
   margin-bottom:16.08px;
-  margin-bottom: 20px;
+  margin-bottom: -10px;
 }
 .personalData{
   margin-top:20px;
@@ -98,10 +98,6 @@ h3{
   display:flex;
   justify-content: center;
 
-}
-
-.header {
-  margin-top:-20px;
 }
 
 .header h2 {

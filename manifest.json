@@ -1,7 +1,13 @@
 {
     "manifest_version": 3,
-    "name": "Class Reminder",
+    "name": "Class Hai Bhai!",
     "version": "1.0",
+    "icons":{
+        "128":"./icons/pclub.png",
+        "48":"./icons/pclub.png",
+        "32":"./icons/pclub.png",
+        "16":"./icons/pclub.png"
+    },
     "permissions": [
         "notifications",
         "alarms",
@@ -17,7 +23,7 @@
     "host_permissions": ["<all_urls>"],
     "action": {
         "default_popup": "popup.html",
-        "default_icon": "icons/iitk.png"
+        "default_icon": "./icons/pclub.png"
     },
     "content_scripts": [
         {
