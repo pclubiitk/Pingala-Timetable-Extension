@@ -1,6 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Class Hai Bhai!",
+    "description": "A tool designed to enhance student experience by simplifying timetable management and providing timely class notifications. ",
     "version": "1.0",
     "description":"Effortless timetable management and timely class notifications to optimize the scheduling experience for IITK students.",
     "icons":{
