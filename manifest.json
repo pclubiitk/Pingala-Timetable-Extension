@@ -1,8 +1,15 @@
 {
     "manifest_version": 3,
-    "name": "Class Reminder",
-    "description": "s a tool designed to enhance student experience by simplifying timetable management and providing timely class notifications. ",
+    "name": "Class Hai Bhai!",
+    "description": "A tool designed to enhance student experience by simplifying timetable management and providing timely class notifications. ",
     "version": "1.0",
+    "description":"Effortless timetable management and timely class notifications to optimize the scheduling experience for IITK students.",
+    "icons":{
+        "128":"./icons/pclub.png",
+        "48":"./icons/pclub.png",
+        "32":"./icons/pclub.png",
+        "16":"./icons/pclub.png"
+    },
     "permissions": [
         "notifications",
         "alarms",
@@ -18,7 +25,7 @@
     "host_permissions": ["<all_urls>"],
     "action": {
         "default_popup": "popup.html",
-        "default_icon": "icons/iitk.png"
+        "default_icon": "./icons/pclub.png"
     },
     "content_scripts": [
         {

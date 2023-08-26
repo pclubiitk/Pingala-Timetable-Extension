@@ -148,7 +148,7 @@ function showTT(){
     <div style=" display: flex; align-items: center; justify-content: space-around; flex-direction: column; font-family: 'Quicksand', sans-serif;">`;
     tableHTML += `
       <div style="font-size: min(7vw,50px); padding: min(.4rem,20px); width: 100%; text-align: center;">
-        CLASS SCHEDULE
+        TIMETABLE
       </div>`
     tableHTML += `
       <table class="timetable-table" style=" text-align: center; overflow: hidden; width: min(100%,80rem); max-height: 100%; border-spacing: 0; border-collapse: collapse; border-radius: 16px; background-color: rgb(243, 243, 243);">`;
