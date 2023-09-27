@@ -11,11 +11,7 @@
     },
     "permissions": [
         "notifications",
-        "alarms",
         "storage",
-        "scripting",
-        "tabs",
-        "downloads",
         "activeTab"
     ],
     "background": {
