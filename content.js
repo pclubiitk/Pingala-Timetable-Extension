@@ -285,49 +285,54 @@ function Day(d){
     }
 }
 
-function parseTimeAndDays(input,classType) {
-  let idx=input.indexOf(classType)
-  idx+=5;
-  let dayString=''
-  let startTime=''
-  let endTime=''
-  let lhc=''
-  while(input[idx]>='A'&&input[idx]<='Z'||input[idx]>='a'&&input[idx]<='z'){
-    dayString+=input[idx]
-    idx++
+function parseTimeAndDays(input, classType) {
+  let idx = input.indexOf(classType);
+  idx += 5;
+  let dayString = '';
+  let startTime = '';
+  let endTime = '';
+  while (input[idx] >= 'A' && input[idx] <= 'Z' || input[idx] >= 'a' && input[idx] <= 'z') {
+    dayString += input[idx];
+    idx++;
   }
-  idx++
-  for(let i=0;i<5;i++){
-    startTime+=input[idx];
-    idx++
+  idx++;
+  for (let i = 0; i < 5; i++) {
+    startTime += input[idx];
+    idx++;
   }
-  idx++
-  for(let i=0;i<5;i++){
-    endTime+=input[idx];
-    idx++
+  idx++;
+  for (let i = 0; i < 5; i++) {
+    endTime += input[idx];
+    idx++;
   }
-  let days=[]
-  if(dayString.includes('M')) days.push(0)
-  if(dayString.includes('W')) days.push(2)
-  if(dayString.includes('F')) days.push(4)
-  idx=dayString.indexOf('T');
-  let count=0;
-  for(let i=0;i<dayString.length;i++){
-    if(dayString[i]==='T') count++;
+  let days = [];
+  if (dayString.includes('F')) days.push(4);
+  if (dayString.includes('W')) days.push(2);
+  if (dayString.includes('M')) days.push(0);
+    //if there is a T 
+  idx = dayString.indexOf('T');
+  let count = 0;
+    //Then check the number of T's 
+    //if there are 2 T's then 
+    // There are Two T's
+  for (let i = 0; i < dayString.length; i++) {
+    if (dayString[i] === 'T') count++;
   }
-  if(count==2){
+    // If there is only One T 
+    // We have to check for that 
+  if (count == 1){
+    idx = dayString.indexOf('T');
+    if (idx == dayString.length - 1) days.push(1);
+    else if (dayString[idx + 1] == 'h') {
+      days.push(3);
+    }
+  } else if (count == 2) {
     days.push(1);
     days.push(3);
   }
-  else if(count==1){
-    idx=dayString.indexOf('T')
-    if(idx==dayString.length-1) days.push(1)
-    else if(dayString[idx+1]=='h'){
-      days.push(3)
-    }
-  }
-  return({days:days,start:startTime,end:endTime,})
+  return { days: days, start: startTime, end: endTime };
 }
+
 
 function removeExtas(s){
   let out='';
