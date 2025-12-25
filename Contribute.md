@@ -1,5 +1,3 @@
-# Contribute.md
- 
 ## How to Contribute
 We welcome your input ! However, to keep the project organized and ensure every feature fits the vision of the extension, we follow a specific process. Please do not open a Pull Request (PR) without following these steps first.
 
