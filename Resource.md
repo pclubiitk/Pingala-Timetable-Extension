@@ -1,4 +1,3 @@
-# Resource.md
 ## Get started with developing extensions
 
 ### What are extensions ?
