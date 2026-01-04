@@ -2,12 +2,12 @@
     "manifest_version": 3,
     "name": "Class Hai Bhai!",
     "description": "A tool designed to enhance student experience by simplifying timetable management and providing timely class notifications. ",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "icons":{
-        "128":"icons/pclub.png",
-        "48":"icons/pclub.png",
-        "32":"icons/pclub.png",
-        "16":"icons/pclub.png"
+        "128":"icons/pclub-128.png",
+        "48":"icons/pclub-48.png",
+        "32":"icons/pclub-32.png",
+        "16":"icons/pclub-16.png"
     },
     "permissions": [
         "notifications",
@@ -20,7 +20,7 @@
     "host_permissions": ["<all_urls>"],
     "action": {
         "default_popup": "popup.html",
-        "default_icon": "icons/pclub.png"
+        "default_icon": "icons/pclub-128.png"
     },
     "content_scripts": [
         {

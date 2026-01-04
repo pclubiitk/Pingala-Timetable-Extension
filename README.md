@@ -34,4 +34,4 @@ Your data security and privacy are of utmost importance to us. The extension sec
 
 ## Contribute
 
-We welcome contributions from the community to improve and expand the Class Hai Bhai! Chrome Extension. If you're a developer and would like to contribute, please fork our repository on GitHub and submit pull requests.
+We welcome contributions from the community to improve and expand the Class Hai Bhai! Chrome Extension. If you're a developer and would like to contribute, please fork our repository on GitHub and submit pull requests, here is a [contribution guide](/Contribute.md) to get started and [resources](/Resource.md) for getting started with development of browser extensions.
