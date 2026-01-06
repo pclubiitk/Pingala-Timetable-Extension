@@ -340,9 +340,11 @@ for (let i = 0; i < dayString.length; i++) {
   // We have to check for that 
 if (count == 1){
   idx = dayString.indexOf('T');
-  if (idx == dayString.length - 1) days.push(1);
-  else if (dayString[idx + 1] == 'h') {
-    days.push(3);
+  // check if the next character following T is h
+  if (dayString[idx + 1] === 'h') {
+    days.push(3); // thursday
+  } else {
+    days.push(1); // tuesday
   }
 } else if (count == 2) {
   days.push(1);
