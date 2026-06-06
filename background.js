@@ -68,7 +68,7 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
 function setNotification(){
   chrome.storage.local.get(['timetable'], function(result) {
     let currentDate = new Date()
-    if(currentDate.getDay() > 5){
+    if(currentDate.getDay() === 0 || currentDate.getDay() === 6){
       return
     }
     let storedData = result.timetable
@@ -111,29 +111,92 @@ function upcomingClassNotif(NxtClass){
 
 
 function upcomingClass(){
+  // no timetable
   chrome.storage.local.get(['timetable'], function(result) {
-    let currentDate = new Date()
-    if(currentDate.getDay() > 5){
-      return
+    if (!result.timetable || Object.keys(result.timetable).length === 0){
+      chrome.notifications.create('noTimetable', { 
+        type: 'basic', 
+        iconUrl: 'icons/1188045.png',
+        title: 'Timetable Not Found',
+        message: "No timetable found. Please navigate to Pingala and open the Form Status page." 
+      });
+      return;
     }
-    let storedData = result.timetable
-    stored = Convert(storedData)
-    let curDay = Day(currentDate.getDay()-1)
-    let x = stored[curDay]
-    let p = 1
-    for(let i=0; i<x.length; i++){
-      const ClassTime = new Date(x[i].time)
-      if(calculateTimeDifference(ClassTime,0)){
-        p = 0
-        upcomingClassNotif(storedData[curDay][i]);
-        return
+
+    // weekend
+    let storedData = Convert(result.timetable);
+    let currentDate = new Date();
+    let currentDayIndex = currentDate.getDay(); 
+
+    if (currentDayIndex === 0 || currentDayIndex === 6) { // sun, saturday
+      let nextClass = findNextClass(storedData, 1); //start to check from monday
+      if (nextClass) {
+        chrome.notifications.create('weekendNextClass', {
+          type: 'basic',
+          iconUrl: 'icons/1188045.png',
+          title: 'Enjoy the Weekend!',
+          message: `Your next class is ${nextClass.title} on ${nextClass.day} at ${nextClass.timeStr}.` 
+        });
+      } else {
+        chrome.notifications.create('weekendNoClass', {
+          type: 'basic',
+          iconUrl: 'icons/1188045.png',
+          title: 'Enjoy the Weekend!',
+          message: "It's the weekend. No classes are scheduled." 
+        });
+      }
+      return;
+    }
+
+    // today
+    let curDName = Day(currentDayIndex -1);
+    let todaysClasses = storedData[curDName];
+    let foundNext = false;
+
+    for (let i=0; i<todaysClasses.length; i++){
+      const ClassTime = new Date(todaysClasses[i].time);
+      if (calculateTimeDifference(ClassTime, 0) > 0){
+        foundNext = true;
+        upcomingClassNotif(todaysClasses[i]);
+        return;
       }
     }
-    if(p){
-      Notify_no_class();
-      return
+
+    // next class from tomorrow
+    if (!foundNext){
+      let nextClass = findNextClass(storedData, currentDayIndex);
+
+      if (nextClass){
+        chrome.notifications.create('endOfDayNextClass', {
+          type: 'basic',
+          iconUrl: 'icons/1188045.png',
+          title: "You're done for today!",
+          message: `Your next class is ${nextClass.title} on ${nextClass.day} at ${nextClass.timeStr}.` 
+        });
+      } else {
+        Notify_no_class(); // literaly nothing found
+      }
     }
   });
+}
+
+function findNextClass(storedData, startIndex){
+  // check upto next 5 days cyclicaly
+  for (let i=startIndex; i < startIndex + 5; i++){
+    let checkIndex = i % 5;
+    let dayName = Day(checkIndex);
+
+    // in case a day is empty
+    if (storedData[dayName] && storedData[dayName].length > 0){
+      let cls = storedData[dayName][0]; // first class of day
+      return {
+        title: cls.title,
+        day: dayName,
+        timeStr: cls.time
+      };
+    }
+  }
+  return null;
 }
 
 //timetable format changed
