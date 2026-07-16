@@ -119,7 +119,7 @@ function upcomingClass(){
     let storedData = result.timetable
     stored = Convert(storedData)
     let curDay = Day(currentDate.getDay()-1)
-    let x = stored[curDay]
+    let x = stored[curDay] || []
     let p = 1
     for(let i=0; i<x.length; i++){
       const ClassTime = new Date(x[i].time)
@@ -172,7 +172,7 @@ function showTT(){
 
       for (let j = 0; j < 5; j++) {
         const day = Day(j);
-        const classes = storedData[day]
+        const classes = storedData[day] || []
         let Class=[];
         let type;
         let conti_Class;
@@ -220,14 +220,14 @@ function showTT(){
           
           //lec vs Class
           if(start_hour==i && type=="Prc"){
-            Class.push(data.title)
+            Class.push({title: data.title, lhc: data.lectureHall})
             color = "#c92f65";
           } else if(start_hour==i&&type=="Lec"){
-            Class.push(data.title)
+            Class.push({title: data.title, lhc: data.lectureHall})
             color = "#0956b3";
           
           } else if(start_hour==i&&type=="Tut"){
-            Class.push(data.title)
+            Class.push({title: data.title, lhc: data.lectureHall})
             color = "#0a8c0d";
           }
 
@@ -258,9 +258,13 @@ function showTT(){
             <td style="height: min(7vh,90px);border-top: 2px solid white; border-right: 2px solid white; padding: 4px; align-items: center;">
               <div style="display: flex; flex-direction: row; align-items: center; align-content: center; width: 100%; height:min(6vh,80px); text-align: center; justify-content:space-around">`
           for(let k=0; k<Class.length; k++){
+            let cellContent = Class[k].title;
+            if (Class[k].lhc) {
+               cellContent += `<br><span style="font-size: 0.8em; opacity: 0.9;">${Class[k].lhc}</span>`;
+            }
             tableHTML += `
-                <div style="z-index: +2;background-color: ${color}; color: white; font-weight: 500; height: 100%; flex:1; padding-top: 8px; padding-bottom:0; border-radius: 7px; text-align: center; display: flex; justify-content: space-around; justify-items: center; margin:2px;">          
-                ${Class[k]} 
+                <div style="z-index: +2;background-color: ${color}; color: white; font-weight: 500; height: 100%; flex:1; min-width: 0; word-break: break-word; font-size: 0.9em; padding: 4px; border-radius: 7px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 2px; line-height: 1.2;">          
+                ${cellContent}
                 </div>`
             }
             tableHTML += `
@@ -272,7 +276,7 @@ function showTT(){
             <div style="display: flex; flex-direction: row; align-items: center; align-content: center; width: 100%; height:min(6vh,80px); text-align: center; justify-content:space-around">`
             for(let l=0; l<n[j]; l++){
               tableHTML += `
-                  <div style="background-color: ${color}; color: white; transform: translateY(-15%); font-weight: 500; height: 150%; flex-grow:1; padding-top: 8px; padding-bottom:0; border-radius: 7px; text-align: center; display: flex; justify-content: space-around; justify-items: center; margin:2px;">          
+                  <div style="background-color: ${color}; color: white; transform: translateY(-15%); font-weight: 500; height: 150%; flex:1; min-width: 0; padding-top: 8px; padding-bottom:0; border-radius: 7px; text-align: center; display: flex; justify-content: space-around; justify-items: center; margin: 2px;">          
                   </div>`
               }
             tableHTML += `
@@ -284,7 +288,7 @@ function showTT(){
             <div style="display: flex; flex-direction: row; align-items: center; align-content: center; width: 100%; height:min(6vh,80px); text-align: center; justify-content:space-around">`
           for(let m=0; m<n[j]; m++){
             tableHTML += `
-                <div style=" background-color: ${color}; color: blue; font-weight: 500; height: 160%; flex-grow:1; border-radius: 7px; padding-top: 8px; padding-bottom:0; text-align: center; display: flex; justify-content: space-around; justify-items: center; margin:2px;"> 
+                <div style=" background-color: ${color}; color: blue; font-weight: 500; height: 160%; flex:1; min-width: 0; border-radius: 7px; padding-top: 8px; padding-bottom:0; text-align: center; display: flex; justify-content: space-around; justify-items: center; margin: 2px;"> 
                 </div>`
             }
           tableHTML += `

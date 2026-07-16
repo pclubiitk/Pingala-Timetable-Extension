@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
   <title>Popup</title>
   <link rel="stylesheet" type="text/css" href="popup.css">
 </head>
@@ -16,7 +17,23 @@
       <button id="upcomingClass">Upcoming Class</button>
       <button id="timetableBtn">Check TimeTable</button>
       <button id="Show_TT">Show Full Timetable</button>
+      <button id="exportToCompass">Export to Compass</button>
 
+    </div>
+    <div id="exportOptions" style="display: none; flex-direction: column; gap: 8px; margin-top: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 6px; text-align: left; background: #f9f9f9;">
+      <label><b>Semester Start</b><br><input type="date" id="semStart" style="width: 100%; padding: 4px;"></label>
+      <label><b>Semester End</b><br><input type="date" id="semEnd" style="width: 100%; padding: 4px;"></label>
+      <div style="margin-top: 8px;">
+        <b>Holidays (Optional)</b>
+        <div id="holidayRanges" style="display: flex; flex-direction: column; gap: 4px; margin-top: 4px;"></div>
+        <button id="addHolidayBtn" style="margin-top: 4px; padding: 4px; font-size: 12px; cursor: pointer;">+ Add Break</button>
+      </div>
+      <button id="confirmExportBtn" style="margin-top: 8px; padding: 8px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Confirm Export</button>
+    </div>
+    <div id="labDaysSelection" style="display: none; flex-direction: column; gap: 8px; margin-top: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 6px; text-align: left; background: #f9f9f9;">
+      <b>Select Practical/Tutorial days</b>
+      <div id="labDaysContainer" style="display: flex; flex-direction: column; gap: 4px; max-height: 150px; overflow-y: auto;"></div>
+      <button id="saveLabDaysBtn" style="margin-top: 8px; padding: 8px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">Save Selections</button>
     </div>
     <div id="timetable">
       <div id="closeBtn">

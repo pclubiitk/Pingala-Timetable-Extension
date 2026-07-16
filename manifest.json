@@ -12,7 +12,8 @@
     "permissions": [
         "notifications",
         "storage",
-        "activeTab"
+        "activeTab",
+        "cookies"
     ],
     "background": {
         "service_worker": "background.js"

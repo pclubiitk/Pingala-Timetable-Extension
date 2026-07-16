@@ -1,3 +1,6 @@
+const COMPASS_API = "https://compass.pclub.in"; // For prod: "https://compass.pclub.in", for dev: "http://localhost:8081"
+const LOGIN_URL = "https://auth.pclub.in/login"; // For prod: "https://auth.pclub.in/login", for dev: "http://localhost:3001/login"
+
 document
   .getElementById("updateBtn")
   .addEventListener("click", async function () {
@@ -10,8 +13,58 @@ document
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message.action === "true") {
-    chrome.storage.local.get(["personal_data"], function (result) {
-      if (Object.keys(result).length) {
+    chrome.storage.local.get(["timetable", "personal_data"], function (result) {
+      if (result.timetable && Object.keys(result.timetable).length) {
+        // Find multi-day Prc/Tut classes
+        const classDays = {};
+        for (const [day, classes] of Object.entries(result.timetable)) {
+          for (const cls of classes) {
+            if (cls.title.startsWith("Prc-") || cls.title.startsWith("Tut-")) {
+              if (!classDays[cls.title]) classDays[cls.title] = [];
+              classDays[cls.title].push(day);
+            }
+          }
+        }
+
+        const multiDayClasses = Object.keys(classDays).filter(title => classDays[title].length > 1);
+
+        if (multiDayClasses.length > 0) {
+          const container = document.getElementById("labDaysContainer");
+          container.innerHTML = "";
+
+          multiDayClasses.forEach(title => {
+            const div = document.createElement("div");
+            div.innerHTML = `<strong>${title}</strong><br>`;
+
+            const daysDiv = document.createElement("div");
+            daysDiv.style.display = "flex";
+            daysDiv.style.flexWrap = "wrap";
+            daysDiv.style.gap = "8px";
+
+            const dayOrder = { "Monday": 1, "Tuesday": 2, "Wednesday": 3, "Thursday": 4, "Friday": 5 };
+            classDays[title].sort((a, b) => dayOrder[a] - dayOrder[b]);
+            classDays[title].forEach(day => {
+              const lbl = document.createElement("label");
+              lbl.style.fontSize = "12px";
+              lbl.style.cursor = "pointer";
+              lbl.innerHTML = `<input type="checkbox" data-title="${title}" data-day="${day}" checked> ${day.substring(0, 3)}`;
+              daysDiv.appendChild(lbl);
+            });
+            div.appendChild(daysDiv);
+            container.appendChild(div);
+          });
+
+          document.getElementById("labDaysSelection").style.display = "flex";
+          document.getElementById("updateBtn").style.display = "none";
+          document.getElementById("upcomingClass").style.display = "none";
+          document.getElementById("timetableBtn").style.display = "none";
+          document.getElementById("Show_TT").style.display = "none";
+          document.getElementById("exportToCompass").style.display = "none";
+        } else {
+          window.alert("Your TimeTable has been successfully updated.");
+          if (result.personal_data) Add_DashBoard(result.personal_data);
+        }
+      } else if (result.personal_data && Object.keys(result.personal_data).length) {
         window.alert("Your TimeTable has been successfully updated.");
         Add_DashBoard(result.personal_data);
       }
@@ -43,6 +96,42 @@ chrome.storage.local.get(["personal_data"], function (result) {
   if (Object.keys(result).length) {
     Add_DashBoard(result.personal_data);
   }
+});
+
+document.getElementById("saveLabDaysBtn").addEventListener("click", function () {
+  const checkboxes = document.querySelectorAll('#labDaysContainer input[type="checkbox"]');
+  const removeList = [];
+
+  checkboxes.forEach(cb => {
+    if (!cb.checked) {
+      removeList.push({ title: cb.getAttribute("data-title"), day: cb.getAttribute("data-day") });
+    }
+  });
+
+  chrome.storage.local.get(["timetable", "personal_data"], function (result) {
+    if (result.timetable) {
+      const tt = result.timetable;
+      removeList.forEach(item => {
+        if (tt[item.day]) {
+          tt[item.day] = tt[item.day].filter(c => c.title !== item.title);
+        }
+      });
+
+      chrome.storage.local.set({ timetable: tt }, function () {
+        document.getElementById("labDaysSelection").style.display = "none";
+        document.getElementById("updateBtn").style.display = "inline-block";
+        document.getElementById("upcomingClass").style.display = "inline-block";
+        document.getElementById("timetableBtn").style.display = "inline-block";
+        document.getElementById("Show_TT").style.display = "inline-block";
+        document.getElementById("exportToCompass").style.display = "inline-block";
+
+        window.alert("Your TimeTable has been successfully updated with your selections.");
+        if (result.personal_data) {
+          Add_DashBoard(result.personal_data);
+        }
+      });
+    }
+  });
 });
 
 document.getElementById("Show_TT").addEventListener("click", async function () {
@@ -233,6 +322,17 @@ document
                 });
               }
             });
+
+            let parent = button.parentNode;
+            let inputField = parent.querySelector("." + subject + "Inp");
+            if (inputField) {
+              inputField.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  button.click();
+                }
+              });
+            }
           }
         );
       });
@@ -283,17 +383,17 @@ function addTT() {
     let gridHTML = '<div class="timetable-grid-container">';
     const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
     days.forEach((day) => {
-      const dataArray = storedData[day];
+      const dataArray = storedData[day] || [];
       gridHTML += `<div class="timetable-day">
                       <div class="day-header">${day}</div>`;
       dataArray.forEach((data) => {
         let time = data.time;
-        if(parseInt(time.slice(0,2))>=12){
+        if (parseInt(time.slice(0, 2)) >= 12) {
           time += " PM";
         }
-        else time+= " AM";
-        if(parseInt(time.slice(0,2))>12){
-          time = time.slice(0,2) - 12 + time.slice(2);
+        else time += " AM";
+        if (parseInt(time.slice(0, 2)) > 12) {
+          time = time.slice(0, 2) - 12 + time.slice(2);
         }
         const title = data.title;
         const classCell = `<div class="class-cell">
@@ -445,3 +545,156 @@ function Day(d) {
     return "Friday";
   }
 }
+
+document.getElementById("exportToCompass").addEventListener("click", async function () {
+  // Check auth
+  try {
+    const res = await fetch(`${COMPASS_API}/api/maps/user-events`, { credentials: "include" });
+    if (!res.ok) {
+      if (window.confirm("Please login to Compass first. Click OK to redirect to the login page.")) {
+        window.open(LOGIN_URL + "?callbackUrl=close", "_blank");
+      }
+      return;
+    }
+  } catch (err) {
+    window.alert("Could not connect to Compass server. Please ensure it is running locally.");
+    return;
+  }
+
+  const optionsDiv = document.getElementById("exportOptions");
+  if (optionsDiv.style.display === "none") {
+    optionsDiv.style.display = "flex";
+  } else {
+    optionsDiv.style.display = "none";
+  }
+});
+
+document.getElementById("addHolidayBtn").addEventListener("click", function () {
+  const div = document.createElement("div");
+  div.style.display = "flex";
+  div.style.gap = "4px";
+  div.style.alignItems = "center";
+  div.className = "holiday-range";
+  div.innerHTML = `
+    <input type="date" class="hol-start" style="width: 40%; padding: 2px;">
+    <span>to</span>
+    <input type="date" class="hol-end" style="width: 40%; padding: 2px;">
+    <button style="color: red; border: none; background: none; cursor: pointer; padding: 2px;" class="hol-remove">✕</button>
+  `;
+  document.getElementById("holidayRanges").appendChild(div);
+
+  div.querySelector(".hol-remove").addEventListener("click", () => div.remove());
+});
+
+document.getElementById("confirmExportBtn").addEventListener("click", async function () {
+  const semStart = document.getElementById("semStart").value;
+  const semEnd = document.getElementById("semEnd").value;
+
+  if (!semStart || !semEnd) {
+    window.alert("Please provide both Semester Start and Semester End dates.");
+    return;
+  }
+
+  const semStartDate = new Date(semStart);
+  const semEndDate = new Date(semEnd);
+  if (semEndDate <= semStartDate) {
+    window.alert("Semester End date must be after Semester Start date.");
+    return;
+  }
+
+  semEndDate.setHours(23, 59, 59, 999);
+
+  // Build exception dates from holiday ranges
+  const exceptionDates = [];
+  const ranges = document.getElementById("holidayRanges").querySelectorAll(".holiday-range");
+  for (const range of ranges) {
+    const startStr = range.querySelector(".hol-start").value;
+    const endStr = range.querySelector(".hol-end").value;
+    if (startStr && endStr) {
+      const start = new Date(startStr);
+      const end = new Date(endStr);
+      const cursor = new Date(start);
+      while (cursor <= end) {
+        exceptionDates.push(cursor.toISOString().split("T")[0]); // YYYY-MM-DD
+        cursor.setDate(cursor.getDate() + 1);
+      }
+    }
+  }
+
+  // Auth passed, proceed with export
+  chrome.storage.local.get(["timetable"], async function (result) {
+    const timetable = result.timetable;
+    if (!timetable || Object.keys(timetable).length === 0) {
+      window.alert("No timetable data found. Please fetch it first.");
+      return;
+    }
+
+    const events = [];
+    const daysMap = { "Monday": 1, "Tuesday": 2, "Wednesday": 3, "Thursday": 4, "Friday": 5 };
+
+    for (const [dayName, classes] of Object.entries(timetable)) {
+      const targetJsDay = daysMap[dayName];
+      if (!targetJsDay) continue;
+
+      for (const cls of classes) {
+        // Find the first occurrence of this day on or after semStart
+        const firstDate = new Date(semStartDate);
+        while (firstDate.getDay() !== targetJsDay) {
+          firstDate.setDate(firstDate.getDate() + 1);
+        }
+
+        // Parse time
+        let [startHour, startMin] = cls.time.split(":").map(Number);
+        let [endHour, endMin] = cls.time_end.split(":").map(Number);
+
+        const eventTime = new Date(firstDate);
+        eventTime.setHours(startHour, startMin, 0, 0);
+
+        const eventEndTime = new Date(firstDate);
+        eventEndTime.setHours(endHour, endMin, 0, 0);
+
+        let desc = "";
+        if (cls.lectureHall) {
+          desc = `📍 ${cls.lectureHall}`;
+        }
+
+        events.push({
+          title: cls.title,
+          description: desc,
+          eventTime: eventTime.toISOString(),
+          eventEndTime: eventEndTime.toISOString(),
+          color: "green",
+          recurrenceType: "weekly",
+          recurrenceEnd: semEndDate.toISOString(),
+          recurrenceExceptions: exceptionDates
+        });
+      }
+    }
+
+    if (events.length === 0) {
+      window.alert("No valid class events found to export.");
+      return;
+    }
+
+    try {
+      const res = await fetch(`${COMPASS_API}/api/maps/user-events/batch`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ events }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const skippedMsg = data.skipped > 0 ? ` (${data.skipped} duplicates skipped)` : "";
+        window.alert(`Successfully exported ${data.created} events to Compass!${skippedMsg}`);
+        document.getElementById("exportOptions").style.display = "none";
+      } else {
+        const errData = await res.json().catch(() => ({}));
+        window.alert(`Failed to export: ${errData.error || res.statusText}`);
+      }
+    } catch (err) {
+      window.alert(`Error exporting to Compass: ${err.message}`);
+    }
+  });
+});
