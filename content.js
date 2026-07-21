@@ -79,7 +79,7 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
           let lectureData = [];
           let tutorialData = [];
           let practicalData = [];
-          const inputString = x[8].innerText;
+          const inputString = x[x.length - 1].innerText;
           const parts = inputString.split(',');
           const lhc=parseLHC(inputString)
           for (const part of parts) {
@@ -105,51 +105,51 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
             }
           }
           
-          if (lectureData.length > 0) {
-              for (const day0 of lectureData[0].days) {
-                  let day=Day(day0)
-                  if (!timetable.hasOwnProperty(day)) {
-                      timetable[day] = [];
-                  }
-              if(!(lectureData[0].start==="00:00"||lectureData[0].end==="00:00")){
+          for (const lec of lectureData) {
+            for (const day0 of lec.days) {
+              let day = Day(day0);
+              if (!timetable.hasOwnProperty(day)) {
+                timetable[day] = [];
+              }
+              if (!(lec.start === "00:00" || lec.end === "00:00")) {
                 timetable[day].push({
-                time: lectureData[0].start,
-                time_end: lectureData[0].end,
-                title: "Lec-"+removeExtas(x[1].innerText),
-                lectureHall: lhc
-              });
+                  time: lec.start,
+                  time_end: lec.end,
+                  title: "Lec-" + removeExtas(x[1].innerText),
+                  lectureHall: lhc
+                });
               }
             }
           }
           
-          if (tutorialData.length > 0) {
-            for (const day0 of tutorialData[0].days) {
-              let day=Day(day0)
-                  if (!timetable.hasOwnProperty(day)) {
-                      timetable[day] = [];
-                  }
-                  if(!(tutorialData[0].start==="00:00"||tutorialData[0].end==="00:00")){
-                          timetable[day].push({
-                          time: tutorialData[0].start,
-                          time_end: tutorialData[0].end,
-                          title: "Tut-"+removeExtas(x[1].innerText),
-                          lectureHall: ''
-                      });
-                  }
+          for (const tut of tutorialData) {
+            for (const day0 of tut.days) {
+              let day = Day(day0);
+              if (!timetable.hasOwnProperty(day)) {
+                timetable[day] = [];
+              }
+              if (!(tut.start === "00:00" || tut.end === "00:00")) {
+                timetable[day].push({
+                  time: tut.start,
+                  time_end: tut.end,
+                  title: "Tut-" + removeExtas(x[1].innerText),
+                  lectureHall: ''
+                });
+              }
             }
           }
           
-          if (practicalData.length > 0) {
-              for (const day0 of practicalData[0].days) {
-                  let day=Day(day0)
-                  if (!timetable.hasOwnProperty(day)) {
-                      timetable[day] = [];
-                  }
-              if(!(practicalData[0].start==="00:00"||practicalData[0].end==="00:00")){
-                  timetable[day].push({
-                  time: practicalData[0].start,
-                  time_end: practicalData[0].end,
-                  title: "Prc-"+removeExtas(x[1].innerText),
+          for (const prc of practicalData) {
+            for (const day0 of prc.days) {
+              let day = Day(day0);
+              if (!timetable.hasOwnProperty(day)) {
+                timetable[day] = [];
+              }
+              if (!(prc.start === "00:00" || prc.end === "00:00")) {
+                timetable[day].push({
+                  time: prc.start,
+                  time_end: prc.end,
+                  title: "Prc-" + removeExtas(x[1].innerText),
                   lectureHall: ''
                 });
               }
@@ -158,7 +158,9 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
         }
         const days=['Monday','Tuesday','Wednesday','Thursday','Friday']
         for(const day in days){
-          timetable[days[day]].sort(compareTime);
+          if (timetable[days[day]]) {
+            timetable[days[day]].sort(compareTime);
+          }
         }
       }
       sendResponse({ timetable: timetable, personal_data: personal_data });
@@ -304,51 +306,43 @@ function Day(d){
 }
 
 function parseTimeAndDays(input, classType) {
-let idx = input.indexOf(classType);
-idx += 5;
-let dayString = '';
-let startTime = '';
-let endTime = '';
-while (input[idx] >= 'A' && input[idx] <= 'Z' || input[idx] >= 'a' && input[idx] <= 'z') {
-  dayString += input[idx];
-  idx++;
-}
-idx++;
-for (let i = 0; i < 5; i++) {
-  startTime += input[idx];
-  idx++;
-}
-idx++;
-for (let i = 0; i < 5; i++) {
-  endTime += input[idx];
-  idx++;
-}
-let days = [];
-if (dayString.includes('F')) days.push(4);
-if (dayString.includes('W')) days.push(2);
-if (dayString.includes('M')) days.push(0);
-  //if there is a T 
-idx = dayString.indexOf('T');
-let count = 0;
-  //Then check the number of T's 
-  //if there are 2 T's then 
-  // There are Two T's
-for (let i = 0; i < dayString.length; i++) {
-  if (dayString[i] === 'T') count++;
-}
-  // If there is only One T 
-  // We have to check for that 
-if (count == 1){
-  idx = dayString.indexOf('T');
-  if (idx == dayString.length - 1) days.push(1);
-  else if (dayString[idx + 1] == 'h') {
-    days.push(3);
+  let idx = input.indexOf(classType);
+  idx += 5;
+  let dayString = '';
+  let startTime = '';
+  let endTime = '';
+  while (input[idx] >= 'A' && input[idx] <= 'Z' || input[idx] >= 'a' && input[idx] <= 'z') {
+    dayString += input[idx];
+    idx++;
   }
-} else if (count == 2) {
-  days.push(1);
-  days.push(3);
-}
-return { days: days, start: startTime, end: endTime };
+  idx++;
+  for (let i = 0; i < 5; i++) {
+    startTime += input[idx];
+    idx++;
+  }
+  idx++;
+  for (let i = 0; i < 5; i++) {
+    endTime += input[idx];
+    idx++;
+  }
+  let days = [];
+  for (let i = 0; i < dayString.length; i++) {
+    if (dayString[i] === 'M') {
+      days.push(0);
+    } else if (dayString[i] === 'W') {
+      days.push(2);
+    } else if (dayString[i] === 'F') {
+      days.push(4);
+    } else if (dayString[i] === 'T') {
+      if (i + 1 < dayString.length && dayString[i + 1] === 'h') {
+        days.push(3);
+        i++; // skip 'h'
+      } else {
+        days.push(1);
+      }
+    }
+  }
+  return { days: days, start: startTime, end: endTime };
 }
 
 
