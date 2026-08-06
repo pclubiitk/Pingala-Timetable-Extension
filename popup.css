@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&family=Wix+Madefor+Display:wght@500&display=swap');
 
+html {
+  width: 360px;
+}
+
 body {
   font-family: Arial, sans-serif;
   font-family: 'Quicksand', sans-serif;
@@ -9,9 +13,17 @@ body {
   align-items: center;
   justify-content: center;
   height: 560px;
+  width: 360px;
   background-color: #ffffff;
   overflow: hidden;
+}
 
+html.expanded-view, body.expanded-view {
+  width: 800px;
+}
+
+body.expanded-view .container {
+  width: 760px;
 }
   
 .personal{

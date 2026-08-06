@@ -157,16 +157,16 @@ document
     document.getElementById("updateBtn").style.display = "none";
     // document.getElementById("LHC").style.display = "none";
     document.getElementsByClassName("personal")[0].style.display = "none";
-    const ContainerElement = document.getElementsByClassName("container")[0];
     let closeButton = document.createElement("button");
-    ContainerElement.style.width = "798px";
+    document.body.classList.add("expanded-view");
+    document.documentElement.classList.add("expanded-view");
     closeButton.innerHTML = "Back";
     closeButton.id = "closeButton";
     document.getElementById("closeBtn").appendChild(closeButton);
 
     document.getElementById("closeButton").addEventListener("click", () => {
-      const ContainerElement = document.getElementsByClassName("container")[0];
-      ContainerElement.style.width = "320px";
+      document.body.classList.remove("expanded-view");
+      document.documentElement.classList.remove("expanded-view");
       document.getElementById("closeBtn").innerHTML = "";
       document.getElementById("timetableBtns").innerHTML = "";
       document.getElementById("timetableGrid").innerHTML = "";
