@@ -1,5 +1,5 @@
-const COMPASS_API = "https://compass.pclub.in"; // For prod: "https://compass.pclub.in", for dev: "http://localhost:8081"
-const LOGIN_URL = "https://auth.pclub.in/login"; // For prod: "https://auth.pclub.in/login", for dev: "http://localhost:3001/login"
+const COMPASS_API = "https://search.pclub.in"; // For prod: "https://search.pclub.in", for dev: "http://localhost:8081"
+const LOGIN_URL = "https://search.pclub.in/login"; // For prod: "https://search.pclub.in/login", for dev: "http://localhost:3001/login"
 
 document
   .getElementById("updateBtn")
@@ -653,14 +653,14 @@ document.getElementById("confirmExportBtn").addEventListener("click", async func
         const eventEndTime = new Date(firstDate);
         eventEndTime.setHours(endHour, endMin, 0, 0);
 
-        let desc = "";
+        let title = cls.title;
         if (cls.lectureHall) {
-          desc = `📍 ${cls.lectureHall}`;
+          title = `${cls.title} (${cls.lectureHall})`;
         }
 
         events.push({
-          title: cls.title,
-          description: desc,
+          title: title,
+          description: "",
           eventTime: eventTime.toISOString(),
           eventEndTime: eventEndTime.toISOString(),
           color: "green",
@@ -677,24 +677,39 @@ document.getElementById("confirmExportBtn").addEventListener("click", async func
     }
 
     try {
+      const csrfCookie = await chrome.cookies.get({ name: "csrf_token", url: COMPASS_API });
+      const headers = { "Content-Type": "application/json" };
+      if (csrfCookie) {
+        headers["X-CSRF-Token"] = csrfCookie.value;
+      }
+
       const res = await fetch(`${COMPASS_API}/api/maps/user-events/batch`, {
         method: "POST",
         credentials: "include",
-        headers: { "Content-Type": "application/json" },
+        headers: headers,
         body: JSON.stringify({ events }),
       });
 
       if (res.ok) {
         const data = await res.json();
         const skippedMsg = data.skipped > 0 ? ` (${data.skipped} duplicates skipped)` : "";
-        window.alert(`Successfully exported ${data.created} events to Compass!${skippedMsg}`);
+        showExportStatus(`Successfully exported ${data.created} events to Compass!${skippedMsg}`, "green");
         document.getElementById("exportOptions").style.display = "none";
       } else {
         const errData = await res.json().catch(() => ({}));
-        window.alert(`Failed to export: ${errData.error || res.statusText}`);
+        showExportStatus(`Failed to export: ${errData.error || res.statusText}`, "red");
       }
     } catch (err) {
-      window.alert(`Error exporting to Compass: ${err.message}`);
+      showExportStatus(`Error exporting to Compass: ${err.message}`, "red");
     }
   });
 });
+
+function showExportStatus(message, color) {
+  const status = document.getElementById("exportStatus");
+  status.textContent = message;
+  status.style.display = "block";
+  status.style.background = color === "green" ? "#e6f4ea" : "#fdecea";
+  status.style.color = color === "green" ? "#1e7e34" : "#c62828";
+  status.style.border = `1px solid ${color === "green" ? "#1e7e34" : "#c62828"}`;
+}
