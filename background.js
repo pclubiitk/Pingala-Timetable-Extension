@@ -68,7 +68,7 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
 function setNotification(){
   chrome.storage.local.get(['timetable'], function(result) {
     let currentDate = new Date()
-    if(currentDate.getDay() > 5){
+    if(currentDate.getDay() > 5 ||  currentDate.getDay() == 0){
       return
     }
     let storedData = result.timetable
